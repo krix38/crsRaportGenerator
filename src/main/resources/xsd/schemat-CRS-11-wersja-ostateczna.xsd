@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:kck="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/" xmlns:tns="http://crd.gov.pl/wzor/2017/07/12/4274/" targetNamespace="http://crd.gov.pl/wzor/2017/07/12/4274/" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd"/>
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/KodyCechKrajow_v3-0E.xsd"/>
+	<xsd:complexType name="AccountHolder_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ posiadacza rachunku</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Individual" type="tns:PersonParty_Type"/>
+				<xsd:sequence>
+					<xsd:element name="Organisation" type="tns:OrganisationParty_Type"/>
+					<xsd:element name="AcctHolderType" type="tns:CrsAcctHolderType_EnumType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="AccountNumber_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="200"/>
+			<xsd:pattern value="([\p{L}0-9/\-?:().,'+* _]*[\p{L}0-9/\-?:().,'+*_]+[\p{L}0-9/\-?:().,'+* _]*)"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AcctNumberType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Account Number Type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OECD601">
+				<xsd:annotation>
+					<xsd:documentation>IBAN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD602">
+				<xsd:annotation>
+					<xsd:documentation>OBAN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD603">
+				<xsd:annotation>
+					<xsd:documentation>ISIN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD604">
+				<xsd:annotation>
+					<xsd:documentation>OSIN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD605">
+				<xsd:annotation>
+					<xsd:documentation>Other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Address_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ adresu; zalecane jest użycie adresu strukturalnego</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CountryCode" type="tns:TKodKraju"/>
+			<xsd:choice>
+				<xsd:element name="AddressFree" type="tns:AddressFree_Type"/>
+				<xsd:sequence>
+					<xsd:element name="AddressFix" type="tns:AddressFix_Type"/>
+					<xsd:element name="AddressFree" type="tns:AddressFree_Type" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="legalAddressType" type="tns:OECDLegalAddressType_EnumType" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Typ oficjalnego adresu</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="AddressFix_Type">
+		<xsd:annotation>
+			<xsd:documentation>Adres strukturalny</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Street" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="BuildingIdentifier" type="tns:IdPrefix_Type" minOccurs="0"/>
+			<xsd:element name="SuiteIdentifier" type="tns:IdPrefix_Type" minOccurs="0"/>
+			<xsd:element name="FloorIdentifier" type="tns:IdPrefix_Type" minOccurs="0"/>
+			<xsd:element name="DistrictName" type="tns:NazwaTytul_Type" minOccurs="0"/>
+			<xsd:element name="POB" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PostCode" type="tns:IdPrefix_Type" minOccurs="0"/>
+			<xsd:element name="City" type="tns:NazwaTytul_Type"/>
+			<xsd:element name="CountrySubentity" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="100"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="AddressFree_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ znakowy ograniczony do 500 znaków</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="500"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ControllingPerson_Type">
+		<xsd:sequence>
+			<xsd:element name="Individual" type="tns:PersonParty_Type"/>
+			<xsd:element name="CtrlgPersonType" type="tns:CrsCtrlgPersonType_EnumType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CorrectableAccountReport_Type">
+		<xsd:annotation>
+			<xsd:documentation>Zestaw danych o rachunku bankowym</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DocSpec" type="tns:DocSpec_Type"/>
+			<xsd:element name="AccountNumber" type="tns:CRSAccountNumber_Type">
+				<xsd:annotation>
+					<xsd:documentation>Numer rachunku raportowanego</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AccountHolder" type="tns:AccountHolder_Type">
+				<xsd:annotation>
+					<xsd:documentation>Posiadacz rachunku</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ControllingPerson" type="tns:ControllingPerson_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Osoby kontrolujące</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AccountBalance" type="tns:MonAmnt_Type">
+				<xsd:annotation>
+					<xsd:documentation>Saldo rachunku lub wartość (w przypadku pieniężnej umowy ubezpieczenia lub umowy renty - wartość pieniężna lub wartość wykupu) ustalona na koniec roku kalendarzowego lub, jeżeli rachunek został zamknięty w ciągu roku kalendarzowego - informację o jego zamknięciu</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Payment" type="tns:Payment_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Płatności</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CorrectableFIParty_Type">
+		<xsd:complexContent>
+			<xsd:extension base="tns:OrganisationFIParty_Type">
+				<xsd:sequence>
+					<xsd:element name="DocSpec" type="tns:DocSpecFI_Type"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CorrectableOrganisationParty_Type">
+		<xsd:complexContent>
+			<xsd:extension base="tns:OrganisationParty_Type">
+				<xsd:sequence>
+					<xsd:element name="DocSpec" type="tns:DocSpec_Type"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="CrsAcctHolderType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Account Holder Type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRS101">
+				<xsd:annotation>
+					<xsd:documentation>Passive Non-Financial Entity with one or more controlling person that is a Reportable Person</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS102">
+				<xsd:annotation>
+					<xsd:documentation>CRS Reportable Person</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS103">
+				<xsd:annotation>
+					<xsd:documentation>Passive NFE that is a CRS Reportable Person</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="CrsBody_Type">
+		<xsd:sequence>
+			<xsd:element name="ReportingFI" type="tns:CorrectableFIParty_Type">
+				<xsd:annotation>
+					<xsd:documentation>Polska raportująca instytucja finansowa</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ReportingGroup">
+				<xsd:complexType>
+					<xsd:sequence minOccurs="0">
+						<xsd:element name="AccountReport" type="tns:CorrectableAccountReport_Type" minOccurs="0" maxOccurs="500"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="CrsCtrlgPersonType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Controlling Person Type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRS801">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal person - ownership</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS802">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal person - other means</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS803">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal person - senior managing official</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS804">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - trust - settlor</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS805">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - trust - trustee</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS806">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - trust - protector</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS807">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - trust - beneficiary</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS808">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - trust - other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS809">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - other - settlor-equivalent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS810">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - other - trustee-equivalent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS811">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - other - protector-equivalent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS812">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - other - beneficiary-equivalent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS813">
+				<xsd:annotation>
+					<xsd:documentation>CP of legal arrangement - other - other-equivalent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CrsMessageTypeIndic_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The MessageTypeIndic defines the type of message sent</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRS701">
+				<xsd:annotation>
+					<xsd:documentation>The message contains new information</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS702">
+				<xsd:annotation>
+					<xsd:documentation>The message contains corrections for previously sent information</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS703">
+				<xsd:annotation>
+					<xsd:documentation>The message advises there is no data to report</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CrsPaymentType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The code describing the nature of the payments used in CRS</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRS501">
+				<xsd:annotation>
+					<xsd:documentation>Dividends</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS502">
+				<xsd:annotation>
+					<xsd:documentation>Interest</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS503">
+				<xsd:annotation>
+					<xsd:documentation>Gross Proceeds/Redemptions</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CRS504">
+				<xsd:annotation>
+					<xsd:documentation>Other - CRS</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="Deklaracja">
+		<xsd:annotation>
+			<xsd:documentation>INFORMACJA O RACHUNKACH RAPORTOWANYCH I NIEUDOKUMENTOWANYCH</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="tns:TNaglowek">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek informacji</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Podmiot1">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="NazwaPodmiotu" type="tns:NazwaTytul_Type">
+								<xsd:annotation>
+									<xsd:documentation>Nazwa instytucji przekazującej informacje</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="NIP" type="etd:TNrNIP">
+								<xsd:annotation>
+									<xsd:documentation>Identyfikator podatkowy NIP instytucji przekazującej informacje</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="CRS" type="tns:CrsBody_Type" maxOccurs="100"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">CRS Version</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+		<xsd:unique name="klucz_IdKoryg">
+			<xsd:selector xpath="tns:Naglowek/tns:IdWiadomosci|tns:Naglowek/tns:IdWiadomosciKorygowanej"/>
+			<xsd:field xpath="."/>
+		</xsd:unique>
+		<xsd:unique name="klucz_DocRefId">
+			<xsd:selector xpath=".//tns:AccountReport/tns:DocSpec/tns:DocRefId|.//tns:AccountReport/tns:DocSpec/tns:CorrDocRefId"/>
+			<xsd:field xpath="."/>
+		</xsd:unique>
+	</xsd:element>
+	<xsd:complexType name="DocSpec_Type">
+		<xsd:annotation>
+			<xsd:documentation>Specyfikacja dukumentu</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DocTypeIndic" type="tns:OECDDocTypeIndic_EnumType">
+				<xsd:annotation>
+					<xsd:documentation>OECD1= Nowe dane; OECD2= Dane korygowane; OECD3 =Dane usuwane</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DocRefId">
+				<xsd:annotation>
+					<xsd:documentation>Unikalny identyfikator elementu AccountReport</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[0-9]{1,20}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CorrDocRefId" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Referencja do identyfikatora DocRefId dotyczącego korygowanych danych</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[0-9]{1,20}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DocSpecFI_Type">
+		<xsd:annotation>
+			<xsd:documentation>Specyfikacja dokumentu</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DocTypeIndic" type="tns:OECDDocTypeIndicFI_EnumType">
+				<xsd:annotation>
+					<xsd:documentation>OECD0 = Dane przesłane ponownie; OECD1= Nowe dane; OECD2= Dane korygowane; OECD3 =Dane usuwane</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DocRefId">
+				<xsd:annotation>
+					<xsd:documentation>Unikalny identyfikator elementu ReportingFI</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[0-9]{1,20}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CorrDocRefId" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Referencja do identyfikatora DocRefId dotyczącego korygowanych danych</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[0-9]{1,20}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CRSAccountNumber_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Account number definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="tns:AccountNumber_Type">
+				<xsd:attribute name="AcctNumberType" type="tns:AcctNumberType_EnumType">
+					<xsd:annotation>
+						<xsd:documentation>Rodzaj numeru rachunku</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="UndocumentedAccount" type="xsd:boolean">
+					<xsd:annotation>
+						<xsd:documentation>Rachunek nieudokumentowany</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="ClosedAccount" type="xsd:boolean">
+					<xsd:annotation>
+						<xsd:documentation>Rachunek zamknięty</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="DormantAccount" type="xsd:boolean">
+					<xsd:annotation>
+						<xsd:documentation>Rachunek nieaktywny</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="IdPrefix_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ znakowy ograniczony do 20 znaków</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MonAmnt_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ kwoty płatności</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="tns:TwoDigFract_Type">
+				<xsd:attribute name="currCode" type="kck:currCode_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="NameOrganisation_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ nazwy organizacji</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="tns:NazwaTytul_Type"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="NamePerson_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ nazwy dla osoby fizycznej</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FirstName" type="tns:NazwaTytul_Type">
+				<xsd:annotation>
+					<xsd:documentation>Imię pierwsze</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MiddleName" type="tns:NazwaTytul_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Imię drugie. Istotny element identyfikacyjny dla wielu narodowości, dotyczy nazw lub określeń takich jak: imię nadane, imię chrześcijańskie, imię ojca, imię, drugie imię, kolejne imiona, nazwisko panieńskie</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NamePrefix" type="tns:IdPrefix_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Dotyczy przedrostków znajdujących się przed elementem „Last Name” i element może ten przyjmować następujące wartości: de, van, van de, von etc.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LastName" type="tns:NazwaTytul_Type">
+				<xsd:annotation>
+					<xsd:documentation>Nazwisko</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="NazwaTytul_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ znakowy ograniczony do 240 znaków</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="240"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OECDDocTypeIndic_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This element specifies the type of data being submitted.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OECD1">
+				<xsd:annotation>
+					<xsd:documentation>New Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD2">
+				<xsd:annotation>
+					<xsd:documentation>Corrected Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD3">
+				<xsd:annotation>
+					<xsd:documentation>Deletion of Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OECDDocTypeIndicFI_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This element specifies the type of data being submitted.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OECD0">
+				<xsd:annotation>
+					<xsd:documentation>Resend Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD1">
+				<xsd:annotation>
+					<xsd:documentation>New Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD2">
+				<xsd:annotation>
+					<xsd:documentation>Corrected Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OECD3">
+				<xsd:annotation>
+					<xsd:documentation>Deletion of Data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OECDLegalAddressType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation>Dotyczy oficjalnego adresu, służy do wskazania typu oficjalnego adresu, np.: (zamieszkania, firmowy itd.)
+			Możliwe wartości:
+			OECD301=zamieszkaniaLubFirmowy/residentialOrBusiness
+			OECD302=zamieszkania/residential
+			OECD303=firmowy/business
+			OECD304=siedziby/registeredOffice
+			OECD305=nieokreślony/unspecified 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="OECD301"/>
+			<xsd:enumeration value="OECD302"/>
+			<xsd:enumeration value="OECD303"/>
+			<xsd:enumeration value="OECD304"/>
+			<xsd:enumeration value="OECD305"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OrganisationINId_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Identification Number</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z0-9/\-?:().,'+*_]{1,50}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="OrganisationIN_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This is the identification number/identification code for the Entity in question. As the identifier may be not strictly numeric, it is just defined as a string of characters. Attribute 'issuedBy' is required to designate the issuer of the identifier. Attribute 'INType' defines the type of identification number.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="tns:OrganisationINId_Type">
+				<xsd:attribute name="issuedBy" type="tns:TKodKraju" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Country code of issuing country, indicating country of Residence (to taxes and other)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="INType" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Identification Number Type</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="OrganisationFIParty_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+This container brings together all data about an organisation as a party. Name and address are required components and each can be present more than once to enable as complete a description as possible. Whenever possible one or more identifiers (TIN etc.) should be added as well as a residence country code. Additional data that describes and identifies the party can be given. The code for the legal type according to the OECD codelist must be added. The structures of all of the subelements are defined elsewhere in this schema.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ResCountryCode" type="tns:TKodKraju" fixed="PL"/>
+			<xsd:element name="IN" type="etd:TNrNIP">
+				<xsd:annotation>
+					<xsd:documentation>Polski identyfikator podatkowy NIP</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Name" type="tns:NameOrganisation_Type"/>
+			<xsd:element name="Address" type="tns:Address_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrganisationParty_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+This container brings together all data about an organisation as a party. Name and address are required components and each can be present more than once to enable as complete a description as possible. Whenever possible one or more identifiers (TIN etc.) should be added as well as a residence country code. Additional data that describes and identifies the party can be given. The code for the legal type according to the OECD codelist must be added. The structures of all of the subelements are defined elsewhere in this schema.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ResCountryCode" type="tns:TKodKraju" maxOccurs="unbounded"/>
+			<xsd:element name="IN" type="tns:OrganisationIN_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Numer identyfikacyjny podatnika</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Name" type="tns:NameOrganisation_Type"/>
+			<xsd:element name="Address" type="tns:Address_Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Payment_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ płatności</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Type" type="tns:CrsPaymentType_EnumType">
+				<xsd:annotation>
+					<xsd:documentation>CRS501 = dywidendy (łączna kwota brutto dywidend); CRS502 = odsetki (W przypadku rachunku powierniczego: łączna kwota brutto odsetek; W przypadku rachunku depozytowego: łączna kwota brutto odsetek wpłaconych lub uznanych na rachunku w roku kalendarzowym); CRS503 = przychody/umorzenia brutto (łączna kwota brutto przychodów ze sprzedaży lub umorzenia aktywów finansowych wpłaconych lub uznanych na poczet rachunku w roku kalendarzowym, w odniesieniu do których raportująca instytucja finansowa działała jako powiernik, broker, pełnomocnik lub inny przedstawiciel działający na rzecz posiadacza rachunku); CRS504 = inne - CRS (łączna kwota brutto wpłacona lub uznana na rzecz posiadacza rachunku w roku kalendarzowym, inna niż raportowana jako typy CRS501-CRS503, w odniesieniu do której raportująca instytucja finansowa działa jako zobowiązany lub dłużnik, w tym łączna kwota umorzeń dokonanych na rzecz posiadacza rachunku w roku kalendarzowym)
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PaymentAmnt" type="tns:MonAmnt_Type">
+				<xsd:annotation>
+					<xsd:documentation>Kwota płatności</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TKodKrajuISO">
+		<xsd:annotation>
+			<xsd:documentation>Uzupełnienie słownika kodów krajów o brakujące kody wg ISO 3166</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:normalizedString">
+			<xsd:enumeration value="SX">
+				<xsd:annotation>
+					<xsd:documentation>WYSPA SINT MAARTEN (CZĘŚĆ HOLENDERSKA WYSPY)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="BQ">
+				<xsd:annotation>
+					<xsd:documentation>BONAIRE, SINT EUSTATIUS I SABA</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SS">
+				<xsd:annotation>
+					<xsd:documentation>SUDAN POŁUDNIOWY</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CW">
+				<xsd:annotation>
+					<xsd:documentation>CURAÇAO</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TKodKraju">
+		<xsd:union memberTypes="etd:TKodKraju tns:TKodKrajuISO"/>
+	</xsd:simpleType>
+	<xsd:complexType name="PersonParty_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+This container brings together all data about a person as a party. Name and address are required components and each can be present more than once to enable as complete a description as possible. Whenever possible one or more identifiers (TIN etc.) should be added as well as a residence country code. Additional data that describes and identifies the party can be given. The code for the legal type according to the OECD codelist must be added. The structures of all of the subelements are defined elsewhere in this schema.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ResCountryCode" type="tns:TKodKraju" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Kod kraju</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TIN" type="tns:TIN_CRS_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Numer identyfikacyjny podatnika</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Name" type="tns:NamePerson_Type"/>
+			<xsd:element name="Address" type="tns:Address_Type" maxOccurs="unbounded"/>
+			<xsd:element name="Nationality" type="tns:TKodKraju" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BirthInfo" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="BirthDate" type="etd:TData" minOccurs="0"/>
+						<xsd:element name="City" type="tns:NazwaTytul_Type" minOccurs="0"/>
+						<xsd:element name="CitySubentity" type="tns:NazwaTytul_Type" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Dotyczy przypadków miast, które ze względu na swoją wielkość posiadają dodatkowo wewnętrznie wydzielone administracyjnie jednostki, np.: w Nowym Jorku przykładem może być Manhattan, a w Berlinie - Kreuzberg</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CountryInfo" minOccurs="0">
+							<xsd:complexType>
+								<xsd:choice>
+									<xsd:element name="CountryCode" type="tns:TKodKraju"/>
+									<xsd:element name="FormerCountryName" type="tns:NazwaTytul_Type">
+										<xsd:annotation>
+											<xsd:documentation>Element ten należy uzupełnić w przypadku gdy nastąpiła zmiana nazwy państwa urodzenia, np.: dana osoba urodziła się jeszcze w Czechosłowacji, która w wyniku przemian politycznych przekształciła się w Czechy i Słowację lub na Cejlonie - obecnie Sri Lanka etc.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:choice>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TIdWiad">
+		<xsd:annotation>
+			<xsd:documentation>Typ identyfikatora wiadomości</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[A-Za-z0-9\+\*]{1,15}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TIN_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ zawierający pattern dla TIN</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z0-9/\-?:().,'+*_]{1,50}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TIN_CRS_Type">
+		<xsd:annotation>
+			<xsd:documentation>Typ identyfikatora podatkowego</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="tns:TIN_Type">
+				<xsd:attribute name="issuedBy" type="tns:TKodKraju" use="optional">
+					<xsd:annotation>
+						<xsd:documentation>Kod kraju wydania identyfikatora</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="TKodFormularza">
+		<xsd:annotation>
+			<xsd:documentation>Symbol wzoru formularza</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRS-1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TNaglowek">
+		<xsd:annotation>
+			<xsd:documentation>Nagłówek informacji</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="KodFormularza">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="tns:TKodFormularza">
+							<xsd:attribute name="kodSystemowy" type="xsd:string" use="required" fixed="CRS-1 (1)"/>
+							<xsd:attribute name="wersjaSchemy" type="xsd:string" use="required" fixed="1-0E"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WariantFormularza">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Rok">
+				<xsd:simpleType>
+					<xsd:restriction base="etd:TRok">
+						<xsd:minInclusive value="2016"/>
+						<xsd:maxInclusive value="2030"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="IdWiadomosci" type="tns:TIdWiad">
+				<xsd:annotation>
+					<xsd:documentation>Identyfikator wysyłanej wiadomości</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="IdWiadomosciKorygowanej" type="tns:TIdWiad" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Identyfikator wiadomości korygowanej</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TwoDigFract_Type">
+		<xsd:annotation>
+			<xsd:documentation>Wartość kwotowa zawierająca maksymalnie 2 cyfry po przecinku</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+<!--    <mapping>
+        <class-a>pl.krix.csv2xml.domain.PersonCsv</class-a>
+        <class-b>pl.krix.csv2xml.xml.PersonXml</class-b>
+        <field>
+            <a>name</a>
+            <b>firstname</b>
+        </field>
+        <field>
+            <a>surname</a>
+            <b>lastname</b>
+        </field>
+        <field>
+            <a>nick</a>
+            <b>nickname</b>
+        </field>
+        <field>
+            <a>age</a>
+            <b>age</b>
+        </field>
+    </mapping>-->
+
+</mappings>

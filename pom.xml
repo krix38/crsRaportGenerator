@@ -8,6 +8,7 @@
     <artifactId>crsRaportGenerator</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -86,9 +87,11 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
+                            <mainClass>pl.krix.generator.Main</mainClass>
                         </manifest>
                     </archive>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>crsRaport</finalName>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>

@@ -12,7 +12,7 @@ import net.sf.jsefa.csv.annotation.CsvField;
 @Getter
 @Setter
 @CsvDataType
-public class CsvInput {
+public class Csv {
 
     @CsvField(pos = 1)
     private String accountNumber;

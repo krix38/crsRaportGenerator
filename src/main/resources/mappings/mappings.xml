@@ -4,25 +4,13 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-<!--    <mapping>
-        <class-a>pl.krix.csv2xml.domain.PersonCsv</class-a>
-        <class-b>pl.krix.csv2xml.xml.PersonXml</class-b>
+    <mapping>
+        <class-a>pl.krix.generator.domain.xml.Deklaracja</class-a>
+        <class-b>pl.krix.generator.domain.csv.Csv</class-b>
         <field>
-            <a>name</a>
-            <b>firstname</b>
+            <a>naglowek.idWiadomosci</a>
+            <b>messageId</b>
         </field>
-        <field>
-            <a>surname</a>
-            <b>lastname</b>
-        </field>
-        <field>
-            <a>nick</a>
-            <b>nickname</b>
-        </field>
-        <field>
-            <a>age</a>
-            <b>age</b>
-        </field>
-    </mapping>-->
+    </mapping>
 
 </mappings>

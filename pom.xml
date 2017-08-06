@@ -85,7 +85,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <packageName>pl.krix.crsRaportGenerator</packageName>
+                    <packageName>pl.krix.generator.domain.xml</packageName>
                     <sources>
                         <source>src/main/resources/xsd</source>
                     </sources>

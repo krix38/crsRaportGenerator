@@ -15,12 +15,7 @@ import net.sf.jsefa.csv.annotation.CsvField;
 public class Csv {
 
     @CsvField(pos = 1)
-    private String accountNumber;
+    private String messageId;
 
-    @CsvField(pos = 2)
-    private String accountHolder;
-
-    @CsvField(pos = 3)
-    private String mock;
 
 }

@@ -11,5 +11,4 @@ import java.io.OutputStream;
 public interface XmlMarshaller {
     void marshallToXml(Deklaracja deklaracja, OutputStream outputStream);
 
-    void marshallToXml(CrsBodyType crsBodyType, OutputStream outputStream);
 }

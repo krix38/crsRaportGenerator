@@ -16,8 +16,4 @@ public class XmlMarshallerImpl implements XmlMarshaller {
 
     }
 
-    @Override
-    public void marshallToXml(CrsBodyType crsBodyType, OutputStream outputStream){
-
-    }
 }

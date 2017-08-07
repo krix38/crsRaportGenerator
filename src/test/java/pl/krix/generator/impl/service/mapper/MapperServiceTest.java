@@ -32,4 +32,9 @@ public class MapperServiceTest {
         assertEquals("1", deklaracja.getNaglowek().getIdWiadomosci());
     }
 
+    @Test(expected = MissingMappingException.class)
+    public void mapperMappingFileMissingTest() throws FileNotFoundException, MissingMappingException {
+        CsvToXmlMapper mapper = new CsvToXmlMapperImpl("unexisting_file");
+    }
+
 }

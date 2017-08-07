@@ -16,22 +16,28 @@ import java.net.URL;
  */
 public class CsvToXmlMapperImpl implements CsvToXmlMapper {
 
-    private static final String DOZER_MAPPING_FILE_PATH = "mappings/mappings.xml";
+    private static final String DEFAULT_DOZER_MAPPING_FILE_PATH = "mappings/mappings.xml";
+
 
     private DozerBeanMapper mapper;
 
-    public CsvToXmlMapperImpl() throws FileNotFoundException, MissingMappingException {
-        File mapping = getDozerMappingFile();
+
+    public CsvToXmlMapperImpl(String mappingFilePath) throws FileNotFoundException, MissingMappingException {
+        File mapping = getDozerMappingFile(mappingFilePath);
         mapper = new DozerBeanMapper();
         mapper.addMapping(new FileInputStream(mapping));
     }
 
-    private File getDozerMappingFile() throws MissingMappingException {
-        URL resource = this.getClass().getClassLoader().getResource(DOZER_MAPPING_FILE_PATH);
+    public CsvToXmlMapperImpl() throws FileNotFoundException, MissingMappingException {
+        this(DEFAULT_DOZER_MAPPING_FILE_PATH);
+    }
+
+    private File getDozerMappingFile(String mappingFilePath) throws MissingMappingException {
+        URL resource = this.getClass().getClassLoader().getResource(mappingFilePath);
         if(resource != null){
             return new File(resource.getFile());
         }else {
-            throw new MissingMappingException(String.format("Could not find mapping: %s", DOZER_MAPPING_FILE_PATH));
+            throw new MissingMappingException(String.format("Could not find mapping: %s", mappingFilePath));
         }
     }
 
@@ -39,6 +45,5 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     public Deklaracja map(Csv csvSource){
         return mapper.map(csvSource, Deklaracja.class);
     }
-
 
 }

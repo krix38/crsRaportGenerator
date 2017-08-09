@@ -3,6 +3,8 @@ package pl.krix.generator.impl.service.marshaller;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
+import pl.krix.generator.exception.InvalidMarshallerInputException;
+import pl.krix.generator.exception.InvalidMarshallerOutputArgumentException;
 import pl.krix.generator.exception.MarshallingException;
 
 import javax.xml.bind.JAXBContext;
@@ -26,11 +28,21 @@ public class XmlMarshallerImpl implements XmlMarshaller {
     }
 
     @Override
-    public void marshallToXml(Deklaracja deklaracja, OutputStream outputStream) throws MarshallingException {
+    public <InputType> void  marshallToXml(InputType inputObject, OutputStream outputStream) throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+        checkArguments(inputObject, outputStream);
         try {
-            marshaller.marshal(deklaracja, outputStream);
+            marshaller.marshal(inputObject, outputStream);
         } catch (JAXBException exception) {
             throw new MarshallingException("output marshalling error", exception);
+        }
+    }
+
+    private <InputType> void checkArguments(InputType deklaracja, OutputStream outputStream) throws InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+        if(deklaracja == null){
+            throw new InvalidMarshallerInputException("Marshaller input cant be null");
+        }
+        if(outputStream == null){
+            throw new InvalidMarshallerOutputArgumentException("Marshaller output argument cant be null");
         }
     }
 

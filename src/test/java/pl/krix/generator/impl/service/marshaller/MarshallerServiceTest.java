@@ -5,6 +5,8 @@ import org.junit.Test;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
+import pl.krix.generator.exception.InvalidMarshallerInputException;
+import pl.krix.generator.exception.InvalidMarshallerOutputArgumentException;
 import pl.krix.generator.exception.MarshallingException;
 
 import javax.xml.bind.JAXBContext;
@@ -31,12 +33,24 @@ public class MarshallerServiceTest {
     }
 
     @Test
-    public void marshallingTest() throws MarshallingException, UnsupportedEncodingException {
+    public void marshallingTest() throws MarshallingException, UnsupportedEncodingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         xmlMarshaller.marshallToXml(this.deklaracja, byteArrayOutputStream);
         String outputXml = byteArrayOutputStream.toString(xmlMarshaller.getEncoding());
-        assertEquals("1", findStringBetweenStrings(outputXml, "<IdWiadomosci>", "</IdWiadomosci"));
+        assertEquals("1", findStringBetweenStrings(outputXml, "<IdWiadomosci>", "</IdWiadomosci>"));
     }
+
+    @Test(expected = InvalidMarshallerInputException.class)
+    public void marshallerNullInputTest() throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        xmlMarshaller.marshallToXml(null, byteArrayOutputStream);
+    }
+
+    @Test(expected = InvalidMarshallerOutputArgumentException.class)
+    public void marshallerNullOutputArgumentTest() throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+        xmlMarshaller.marshallToXml(this.deklaracja, null);
+    }
+
 
     private String findStringBetweenStrings(String input, String first, String second){
         return input.substring(input.indexOf(first) + first.length(), input.indexOf(second));

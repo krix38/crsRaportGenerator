@@ -4,6 +4,7 @@ import org.dozer.DozerBeanMapper;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.domain.csv.Csv;
+import pl.krix.generator.exception.InvalidMapperInputException;
 import pl.krix.generator.exception.MissingMappingException;
 
 import java.io.File;
@@ -42,8 +43,15 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     }
 
     @Override
-    public Deklaracja map(Csv csvSource){
+    public Deklaracja map(Csv csvSource) throws InvalidMapperInputException {
+        checkInput(csvSource);
         return mapper.map(csvSource, Deklaracja.class);
+    }
+
+    private void checkInput(Csv csvSource) throws InvalidMapperInputException {
+        if(csvSource == null){
+            throw new InvalidMapperInputException("Mapper input cant be null");
+        }
     }
 
 }

@@ -17,5 +17,8 @@ public class Csv {
     @CsvField(pos = 1)
     private String messageId;
 
+    @CsvField(pos = 2)
+    private String someData;
+
 
 }

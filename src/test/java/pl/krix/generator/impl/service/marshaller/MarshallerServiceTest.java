@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class MarshallerServiceTest {
 
+    //TODO: test header marshalling
+
     private ObjectFactory objectFactory = new ObjectFactory();
     private XmlMarshaller xmlMarshaller;
     private Deklaracja deklaracja;

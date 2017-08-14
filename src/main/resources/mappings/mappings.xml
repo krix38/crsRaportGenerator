@@ -5,10 +5,10 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <mapping>
-        <class-a>pl.krix.generator.domain.xml.Deklaracja</class-a>
+        <class-a>pl.krix.generator.domain.xml.CrsBodyType</class-a>
         <class-b>pl.krix.generator.domain.csv.Csv</class-b>
         <field>
-            <a>naglowek.idWiadomosci</a>
+            <a>reportingFI.docSpec.docRefId</a>
             <b>messageId</b>
         </field>
     </mapping>

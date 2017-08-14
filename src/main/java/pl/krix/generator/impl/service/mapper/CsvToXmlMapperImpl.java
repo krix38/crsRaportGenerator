@@ -1,6 +1,7 @@
 package pl.krix.generator.impl.service.mapper;
 
 import org.dozer.DozerBeanMapper;
+import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.domain.csv.Csv;
@@ -43,9 +44,9 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     }
 
     @Override
-    public Deklaracja map(Csv csvSource) throws InvalidMapperInputException {
+    public CrsBodyType map(Csv csvSource) throws InvalidMapperInputException {
         checkInput(csvSource);
-        return mapper.map(csvSource, Deklaracja.class);
+        return mapper.map(csvSource, CrsBodyType.class);
     }
 
     private void checkInput(Csv csvSource) throws InvalidMapperInputException {

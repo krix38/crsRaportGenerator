@@ -1,0 +1,11 @@
+{
+  "idWiadomosci": 1,
+  "rok": "2017",
+  "kodFormularza": {
+                       "value": "CRS_1",
+                       "kodSystemowy": "CRS-1 (1)",
+                       "wersjaSchemy": "1-0E"
+                   },
+  "wariantFormularza": 1,
+  "idWiadomosciKorygowanej" : ["A", "B", "C"]
+}

@@ -3,7 +3,7 @@ package pl.krix.generator.exception;
 /**
  * Created by krix on 13.08.2017.
  */
-public class RaportGenerationException extends Exception {
+public class RaportGenerationException extends RuntimeException {
     public RaportGenerationException(String message) {
         super(message);
     }

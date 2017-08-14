@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.domain.csv.Csv;
+import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.exception.InvalidMapperInputException;
 import pl.krix.generator.exception.MissingMappingException;
@@ -29,8 +30,8 @@ public class MapperServiceTest {
 
     @Test
     public void mapperTest() throws InvalidMapperInputException {
-        Deklaracja deklaracja = mapper.map(correctCsvMock);
-        assertEquals("1", deklaracja.getNaglowek().getIdWiadomosci());
+        CrsBodyType crsBodyType = mapper.map(correctCsvMock);
+        assertEquals("1", crsBodyType.getReportingFI().getDocSpec().getDocRefId());
     }
 
     @Test(expected = MissingMappingException.class)

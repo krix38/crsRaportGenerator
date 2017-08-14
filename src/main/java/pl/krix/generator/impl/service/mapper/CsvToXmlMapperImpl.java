@@ -34,6 +34,8 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
         this(DEFAULT_DOZER_MAPPING_FILE_PATH);
     }
 
+
+    //TODO: getResourceAsStream
     private File getDozerMappingFile(String mappingFilePath) throws MissingMappingException {
         URL resource = this.getClass().getClassLoader().getResource(mappingFilePath);
         if(resource != null){

@@ -13,6 +13,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 /**
@@ -20,18 +24,21 @@ import static org.junit.Assert.assertEquals;
  */
 public class MarshallerServiceTest {
 
-    //TODO: test header marshalling
 
     private ObjectFactory objectFactory = new ObjectFactory();
     private XmlMarshaller xmlMarshaller;
     private Deklaracja deklaracja;
 
     @Before
-    public void setup() {
+    public void setup() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY");
+        Date year = dateFormat.parse("2017");
+
         this.xmlMarshaller = new XmlMarshallerImpl(Deklaracja.class);
         this.deklaracja = objectFactory.createDeklaracja();
         this.deklaracja.setNaglowek(objectFactory.createTNaglowek());
         this.deklaracja.getNaglowek().setIdWiadomosci("1");
+        this.deklaracja.getNaglowek().setRok(year);
     }
 
     @Test
@@ -40,6 +47,8 @@ public class MarshallerServiceTest {
         xmlMarshaller.marshallToXml(this.deklaracja, byteArrayOutputStream);
         String outputXml = byteArrayOutputStream.toString(xmlMarshaller.getEncoding());
         assertEquals("1", findStringBetweenStrings(outputXml, "<IdWiadomosci>", "</IdWiadomosci>"));
+        assertEquals("2017", findStringBetweenStrings(outputXml, "<Rok>", "</Rok>"));
+
     }
 
     @Test(expected = InvalidMarshallerInputException.class)

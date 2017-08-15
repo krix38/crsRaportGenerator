@@ -1,24 +1,27 @@
 package pl.krix.generator.impl.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.krix.generator.api.service.RaportGenerationService;
 import pl.krix.generator.api.service.deserializer.CsvDeserializerService;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.api.service.reader.HeaderReader;
-import pl.krix.generator.domain.csv.Csv;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.domain.xml.TNaglowek;
-import pl.krix.generator.exception.*;
+import pl.krix.generator.exception.HeaderJsonFileNotFoundException;
+import pl.krix.generator.exception.ProcessingCsvInputException;
 import pl.krix.generator.impl.service.deserializer.CsvDeserializerServiceImpl;
 import pl.krix.generator.impl.service.mapper.CsvToXmlMapperImpl;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
 import pl.krix.generator.impl.service.reader.HeaderReaderImpl;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,6 +41,9 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
     private HeaderReader headerReader;
 
     private FileInputStream jsonHeaderInputFile;
+
+    private static final Logger logger = LoggerFactory.getLogger(RaportGenerationServiceImpl.class);
+
 
     private static final String DEFAULT_HEADER_CONFIGURATION_PATH = "header.json";
 

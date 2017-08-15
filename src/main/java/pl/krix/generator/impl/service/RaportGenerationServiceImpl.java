@@ -3,6 +3,7 @@ package pl.krix.generator.impl.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.krix.generator.api.service.RaportGenerationService;
+import pl.krix.generator.api.service.builder.DeclarationBuilder;
 import pl.krix.generator.api.service.deserializer.CsvDeserializerService;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
@@ -13,10 +14,11 @@ import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.domain.xml.TNaglowek;
 import pl.krix.generator.exception.HeaderJsonFileNotFoundException;
 import pl.krix.generator.exception.ProcessingCsvInputException;
+import pl.krix.generator.impl.service.builder.DeclarationBuilderImpl;
 import pl.krix.generator.impl.service.deserializer.CsvDeserializerServiceImpl;
 import pl.krix.generator.impl.service.mapper.CsvToXmlMapperImpl;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
-import pl.krix.generator.impl.service.reader.HeaderReaderImpl;
+import pl.krix.generator.impl.service.reader.HeaderServiceImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +41,7 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
     private CsvToXmlMapper mapper;
     private XmlMarshaller marshaller;
     private HeaderReader headerReader;
+    private DeclarationBuilder declarationBuilder;
 
     private FileInputStream jsonHeaderInputFile;
 
@@ -51,14 +54,16 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
         this(new CsvDeserializerServiceImpl(),
                 new CsvToXmlMapperImpl(),
                 new XmlMarshallerImpl(Deklaracja.class),
-                new HeaderReaderImpl());
+                new HeaderServiceImpl(),
+                new DeclarationBuilderImpl());
     }
 
-    public RaportGenerationServiceImpl(CsvDeserializerService deserializerService, CsvToXmlMapper mapper, XmlMarshaller marshaller, HeaderReader headerReader) {
+    public RaportGenerationServiceImpl(CsvDeserializerService deserializerService, CsvToXmlMapper mapper, XmlMarshaller marshaller, HeaderReader headerReader, DeclarationBuilder declarationBuilder) {
         this.deserializerService = deserializerService;
         this.mapper = mapper;
         this.marshaller = marshaller;
         this.headerReader = headerReader;
+        this.declarationBuilder = declarationBuilder;
 
         try {
             this.jsonHeaderInputFile = new FileInputStream(new File(DEFAULT_HEADER_CONFIGURATION_PATH));
@@ -95,10 +100,10 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
 
 
     private Deklaracja generateDeclaration(TNaglowek header, List<CrsBodyType> crsBodyTypeList){
-        Deklaracja declaration = objectFactory.createDeklaracja();
-        declaration.setNaglowek(header);
-        declaration.getCRS().addAll(crsBodyTypeList);
-        return declaration;
+        return declarationBuilder
+                .header(header)
+                .crsBodyList(crsBodyTypeList)
+                .build();
     }
 
 }

@@ -1,16 +1,12 @@
 package pl.krix.generator.impl.service.reader;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import org.junit.Before;
 import org.junit.Test;
 import pl.krix.generator.api.service.reader.HeaderReader;
 import pl.krix.generator.domain.xml.TNaglowek;
 import pl.krix.generator.exception.HeaderReaderException;
 
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
@@ -21,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class HeaderReaderServiceTest {
 
-    private HeaderReader headerReader = new HeaderReaderImpl();
+    private HeaderReader headerReader = new HeaderServiceImpl();
     private Calendar calendar = Calendar.getInstance();
 
 

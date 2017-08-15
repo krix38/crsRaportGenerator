@@ -13,11 +13,11 @@ import java.text.SimpleDateFormat;
 /**
  * Created by krix on 12.08.2017.
  */
-public class HeaderReaderImpl implements HeaderReader {
+public class HeaderServiceImpl implements HeaderReader {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public HeaderReaderImpl() {
+    public HeaderServiceImpl() {
         setDateFormatForMapper();
     }
 

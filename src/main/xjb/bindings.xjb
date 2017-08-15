@@ -5,7 +5,8 @@
 
 
 
-    <jaxb:globalBindings typesafeEnumMaxMembers="2000">
+    <jaxb:globalBindings typesafeEnumMaxMembers="2000" generateIsSetMethod="true">
+        <xjc:serializable />
         <xjc:javaType adapter="pl.krix.generator.configuration.HeaderYearAdapter" name="java.util.Date" xmlType="etd:TRok" />
     </jaxb:globalBindings>
 </jaxb:bindings>

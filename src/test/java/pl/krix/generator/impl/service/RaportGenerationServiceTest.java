@@ -4,10 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import pl.krix.generator.api.service.RaportGenerationService;
-import pl.krix.generator.impl.service.mock.CsvDeserializerMock;
-import pl.krix.generator.impl.service.mock.CsvToXmlMapperMock;
-import pl.krix.generator.impl.service.mock.HeadeReaderMock;
-import pl.krix.generator.impl.service.mock.XmlMarshallerMock;
+import pl.krix.generator.impl.service.mock.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +33,7 @@ public class RaportGenerationServiceTest {
                 new CsvDeserializerMock(),
                 new CsvToXmlMapperMock(),
                 new XmlMarshallerMock(),
-                new HeadeReaderMock());
+                new HeadeReaderMock(),
+                new DeclarationBuilderMock());
     }
 }

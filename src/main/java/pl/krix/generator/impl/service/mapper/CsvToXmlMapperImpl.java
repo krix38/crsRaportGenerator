@@ -25,13 +25,13 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     private DozerBeanMapper mapper;
 
 
-    public CsvToXmlMapperImpl(String mappingFilePath) throws FileNotFoundException, MissingMappingException {
+    public CsvToXmlMapperImpl(String mappingFilePath) {
         InputStream mapping = getDozerMappingFile(mappingFilePath);
         mapper = new DozerBeanMapper();
         mapper.addMapping(mapping);
     }
 
-    public CsvToXmlMapperImpl() throws FileNotFoundException, MissingMappingException {
+    public CsvToXmlMapperImpl() {
         this(DEFAULT_DOZER_MAPPING_FILE_PATH);
     }
 

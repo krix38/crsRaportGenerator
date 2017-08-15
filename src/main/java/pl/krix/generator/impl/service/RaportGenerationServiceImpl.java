@@ -9,8 +9,8 @@ import pl.krix.generator.domain.csv.Csv;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
-import pl.krix.generator.exception.MissingMappingException;
-import pl.krix.generator.exception.RaportGenerationException;
+import pl.krix.generator.domain.xml.TNaglowek;
+import pl.krix.generator.exception.*;
 import pl.krix.generator.impl.service.deserializer.CsvDeserializerServiceImpl;
 import pl.krix.generator.impl.service.mapper.CsvToXmlMapperImpl;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
@@ -41,20 +41,24 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
 
     private static final String DEFAULT_HEADER_CONFIGURATION_PATH = "header.json";
 
-    public RaportGenerationServiceImpl() throws FileNotFoundException, MissingMappingException, JAXBException {
+    public RaportGenerationServiceImpl()  {
         this(new CsvDeserializerServiceImpl(),
                 new CsvToXmlMapperImpl(),
-                new XmlMarshallerImpl(JAXBContext.newInstance(Deklaracja.class)),
+                new XmlMarshallerImpl(Deklaracja.class),
                 new HeaderReaderImpl());
     }
 
-    public RaportGenerationServiceImpl(CsvDeserializerService deserializerService, CsvToXmlMapper mapper, XmlMarshaller marshaller, HeaderReader headerReader) throws FileNotFoundException {
+    public RaportGenerationServiceImpl(CsvDeserializerService deserializerService, CsvToXmlMapper mapper, XmlMarshaller marshaller, HeaderReader headerReader) {
         this.deserializerService = deserializerService;
         this.mapper = mapper;
         this.marshaller = marshaller;
         this.headerReader = headerReader;
 
-        this.jsonHeaderInputFile = new FileInputStream(new File(DEFAULT_HEADER_CONFIGURATION_PATH));
+        try {
+            this.jsonHeaderInputFile = new FileInputStream(new File(DEFAULT_HEADER_CONFIGURATION_PATH));
+        } catch (FileNotFoundException e) {
+            throw new HeaderJsonFileNotFoundException("Could not open header.json file");
+        }
 
     }
 
@@ -64,30 +68,31 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
         try (Stream<String> stream = Files.lines(Paths.get(csvInputPath))) {
             processCsvStream(stream);
         } catch (IOException e) {
-            System.err.printf("Error while reading input csv: %s%n", e.getMessage());
+            throw new ProcessingCsvInputException("Failed to process csv input", e);
         }
     }
 
-
-    //TODO: refactor
+    //TODO: refactor limit crsBodyTypeList to 500 elements per declaration
     private void processCsvStream(Stream<String> csvStream){
+        TNaglowek header = headerReader.readHeder(jsonHeaderInputFile);
+        List<CrsBodyType> crsBodyTypeList = deserializeCsvStreamToCrsBodyType(csvStream);
+        Deklaracja declaration = generateDeclaration(header, crsBodyTypeList);
+        marshaller.marshallToXml(declaration, System.out);
+    }
+
+    private List<CrsBodyType> deserializeCsvStreamToCrsBodyType(Stream<String> csvStream){
+        return csvStream
+                .map(deserializerService::deserializeToCsv)
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
+
+    private Deklaracja generateDeclaration(TNaglowek header, List<CrsBodyType> crsBodyTypeList){
         Deklaracja declaration = objectFactory.createDeklaracja();
-        try{
-
-            declaration.setNaglowek(headerReader.readHeder(jsonHeaderInputFile));
-
-            List<CrsBodyType> crsBodyTypeList = csvStream
-                    .map(deserializerService::deserializeToCsv)
-                    .map(mapper::map)
-                    .collect(Collectors.toList());
-
-            declaration.getCRS().addAll(crsBodyTypeList);
-            marshaller.marshallToXml(declaration, new FileOutputStream(new File("raport.xml")));
-        }catch (RaportGenerationException exception){
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        declaration.setNaglowek(header);
+        declaration.getCRS().addAll(crsBodyTypeList);
+        return declaration;
     }
 
 }

@@ -27,8 +27,8 @@ public class MarshallerServiceTest {
     private Deklaracja deklaracja;
 
     @Before
-    public void setup() throws JAXBException {
-        this.xmlMarshaller = new XmlMarshallerImpl(JAXBContext.newInstance(Deklaracja.class));
+    public void setup() {
+        this.xmlMarshaller = new XmlMarshallerImpl(Deklaracja.class);
         this.deklaracja = objectFactory.createDeklaracja();
         this.deklaracja.setNaglowek(objectFactory.createTNaglowek());
         this.deklaracja.getNaglowek().setIdWiadomosci("1");

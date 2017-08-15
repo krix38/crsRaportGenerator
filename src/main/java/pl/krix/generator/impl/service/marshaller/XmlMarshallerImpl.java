@@ -5,6 +5,7 @@ import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.exception.InvalidMarshallerInputException;
 import pl.krix.generator.exception.InvalidMarshallerOutputArgumentException;
+import pl.krix.generator.exception.MarshallerCreationException;
 import pl.krix.generator.exception.MarshallingException;
 
 import javax.xml.bind.JAXBContext;
@@ -21,10 +22,15 @@ public class XmlMarshallerImpl implements XmlMarshaller {
 
     private Marshaller marshaller;
 
-    public XmlMarshallerImpl(JAXBContext jaxbContext) throws JAXBException {
-        this.marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, MARSHALLER_ENCODING);
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    public XmlMarshallerImpl(Class tClass) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(tClass);
+            this.marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, MARSHALLER_ENCODING);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        } catch (JAXBException e) {
+            throw new MarshallerCreationException("Failed to create marshaller", e);
+        }
     }
 
     @Override

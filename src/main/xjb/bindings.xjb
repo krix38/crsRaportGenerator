@@ -1,11 +1,11 @@
-<jxb:bindings version="1.0"
-        xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-        >
-
-    <!-- Raise theEnumMemberSizeCap limit -->
-    <jxb:bindings >
-        <jxb:globalBindings typesafeEnumMaxMembers="2000"/>
-    </jxb:bindings>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    jaxb:extensionBindingPrefixes="xjc" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/"
+    jaxb:version="2.1">
 
 
-</jxb:bindings>
+
+    <jaxb:globalBindings typesafeEnumMaxMembers="2000">
+        <xjc:javaType adapter="pl.krix.generator.configuration.HeaderYearAdapter" name="java.util.Date" xmlType="etd:TRok" />
+    </jaxb:globalBindings>
+</jaxb:bindings>

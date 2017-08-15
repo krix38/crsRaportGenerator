@@ -1,6 +1,7 @@
 package pl.krix.generator.impl.service.reader;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import org.junit.Before;
 import org.junit.Test;
 import pl.krix.generator.api.service.reader.HeaderReader;
 import pl.krix.generator.domain.xml.TNaglowek;
@@ -21,6 +22,8 @@ import static org.junit.Assert.assertEquals;
 public class HeaderReaderServiceTest {
 
     private HeaderReader headerReader = new HeaderReaderImpl();
+    private Calendar calendar = Calendar.getInstance();
+
 
     private String correctJsonInput =
             "{" +
@@ -45,8 +48,9 @@ public class HeaderReaderServiceTest {
     public void testCorrectJsonInputReading() throws HeaderReaderException {
         InputStream inputStream = new ByteArrayInputStream(correctJsonInput.getBytes(StandardCharsets.UTF_8));
         TNaglowek header = headerReader.readHeder(inputStream);
+        calendar.setTime(header.getRok());
         assertEquals("1", header.getIdWiadomosci());
-        assertEquals(2017, header.getRok().getYear());
+        assertEquals(2017, calendar.get(Calendar.YEAR));
         assertEquals("CRS-1", header.getKodFormularza().getValue().value());
         assertEquals("CRS-1 (1)", header.getKodFormularza().getKodSystemowy());
         assertEquals("1-0E", header.getKodFormularza().getWersjaSchemy());

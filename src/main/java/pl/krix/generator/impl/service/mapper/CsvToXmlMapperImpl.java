@@ -11,6 +11,7 @@ import pl.krix.generator.exception.MissingMappingException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 
 /**
@@ -25,9 +26,9 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
 
 
     public CsvToXmlMapperImpl(String mappingFilePath) throws FileNotFoundException, MissingMappingException {
-        File mapping = getDozerMappingFile(mappingFilePath);
+        InputStream mapping = getDozerMappingFile(mappingFilePath);
         mapper = new DozerBeanMapper();
-        mapper.addMapping(new FileInputStream(mapping));
+        mapper.addMapping(mapping);
     }
 
     public CsvToXmlMapperImpl() throws FileNotFoundException, MissingMappingException {
@@ -35,11 +36,10 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     }
 
 
-    //TODO: getResourceAsStream
-    private File getDozerMappingFile(String mappingFilePath) throws MissingMappingException {
-        URL resource = this.getClass().getClassLoader().getResource(mappingFilePath);
+    private InputStream getDozerMappingFile(String mappingFilePath) throws MissingMappingException {
+        InputStream resource = this.getClass().getClassLoader().getResourceAsStream(mappingFilePath);
         if(resource != null){
-            return new File(resource.getFile());
+            return resource;
         }else {
             throw new MissingMappingException(String.format("Could not find mapping: %s", mappingFilePath));
         }

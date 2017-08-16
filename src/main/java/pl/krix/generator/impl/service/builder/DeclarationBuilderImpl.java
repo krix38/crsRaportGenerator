@@ -6,11 +6,12 @@ import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.domain.xml.TNaglowek;
 import pl.krix.generator.exception.DeclarationHeaderUniqueIdGenerationException;
+import pl.krix.generator.util.ObjectChecksumUtil;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
@@ -40,30 +41,41 @@ public class DeclarationBuilderImpl implements DeclarationBuilder {
 
     @Override
     public Deklaracja build(){
-        if(this.deklaracja.getNaglowek() != null){
-            this.deklaracja.getNaglowek().setIdWiadomosci(generateRandomId(this.deklaracja));
+        if(headerDataIsSet()){
+            generateIdsForHeaderAndCRSRaports();
         }
         return this.deklaracja;
     }
 
-    private String generateRandomId(Deklaracja deklaracja) {
-        String yearString = getYearStringFromDate(deklaracja.getNaglowek().getRok());
-        String id = String.format("%s%s", yearString, objectToSHA1(deklaracja));
-        return id.length() > 15 ? id.substring(0, 15) : id;
-    }
-
-    private String objectToSHA1(Object object){
-        try{
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(object);
-            BigInteger bigIntegerHash = new BigInteger(1, MessageDigest.getInstance("SHA1").digest(byteArrayOutputStream.toByteArray()));
-            return String.valueOf(bigIntegerHash);
-        } catch (IOException | NoSuchAlgorithmException e) {
-            throw new DeclarationHeaderUniqueIdGenerationException("Failed to generate unique id for declaration header", e);
+    private void generateIdsForHeaderAndCRSRaports() {
+        this.deklaracja.getNaglowek().setIdWiadomosci(generateHeaderId(this.deklaracja));
+        for(CrsBodyType crs : this.deklaracja.getCRS()){
+            crs.getReportingFI().getDocSpec().setDocRefId(generateDocRefId(crs));
         }
     }
 
+    private String generateDocRefId(CrsBodyType crs) {
+        String id = headerYearAsString() + ObjectChecksumUtil.objectToChecksumSHA1(crs);
+        return limitString(id, 20);
+    }
+
+    private Boolean headerDataIsSet() {
+        return this.deklaracja.getNaglowek() != null && this.deklaracja.getNaglowek().getRok() != null;
+    }
+
+    private String generateHeaderId(Deklaracja deklaracja) {
+        String id = String.format("%s%s", headerYearAsString(), ObjectChecksumUtil.objectToHexSHA1(deklaracja));
+        return limitString(id, 15);
+    }
+
+    private String limitString(String string, Integer limit){
+        return string.length() > limit ? string.substring(0, limit) : string;
+
+    }
+
+    private String headerYearAsString() {
+        return getYearStringFromDate(deklaracja.getNaglowek().getRok());
+    }
 
 
     private String getYearStringFromDate(Date rok) {

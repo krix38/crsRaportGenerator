@@ -8,7 +8,7 @@
         <class-a>pl.krix.generator.domain.xml.CrsBodyType</class-a>
         <class-b>pl.krix.generator.domain.csv.Csv</class-b>
         <field>
-            <a>reportingFI.docSpec.docRefId</a>
+            <a>reportingFI.docSpec.corrDocRefId</a>
             <b>messageId</b>
         </field>
     </mapping>

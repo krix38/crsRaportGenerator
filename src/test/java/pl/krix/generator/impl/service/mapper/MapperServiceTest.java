@@ -31,7 +31,7 @@ public class MapperServiceTest {
     @Test
     public void mapperTest() throws InvalidMapperInputException {
         CrsBodyType crsBodyType = mapper.map(correctCsvMock);
-        assertEquals("1", crsBodyType.getReportingFI().getDocSpec().getDocRefId());
+        assertEquals("1", crsBodyType.getReportingFI().getDocSpec().getCorrDocRefId());
     }
 
     @Test(expected = MissingMappingException.class)

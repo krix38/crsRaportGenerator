@@ -20,12 +20,12 @@ public class Main {
 
     static {
         BasicConfigurator.configure();
+        raportGenerationService = new RaportGenerationServiceImpl();
     }
 
     public static void main(String[] args){
         try {
             checkUsage(args);
-            raportGenerationService = new RaportGenerationServiceImpl();
             raportGenerationService.generate(args[0]);
         } catch (RaportGenerationException e) {
             logger.error(e.getMessage());

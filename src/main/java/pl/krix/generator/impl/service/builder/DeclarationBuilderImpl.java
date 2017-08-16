@@ -57,7 +57,7 @@ public class DeclarationBuilderImpl implements DeclarationBuilder {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             objectOutputStream.writeObject(object);
-            BigInteger bigIntegerHash = new BigInteger(1, MessageDigest.getInstance("SHA1").digest());
+            BigInteger bigIntegerHash = new BigInteger(1, MessageDigest.getInstance("SHA1").digest(byteArrayOutputStream.toByteArray()));
             return String.valueOf(bigIntegerHash);
         } catch (IOException | NoSuchAlgorithmException e) {
             throw new DeclarationHeaderUniqueIdGenerationException("Failed to generate unique id for declaration header", e);

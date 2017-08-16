@@ -42,6 +42,13 @@ public class MainClassTest {
         assertEquals("usage: java -jar crsRaport.jar [csv input file]\n\n", standardOutput.toString());
     }
 
+    @Test
+    public void testMainClassTooManyArguments() {
+        String[] args = {"one", "two"};
+        Main.main(args);
+        assertEquals("usage: java -jar crsRaport.jar [csv input file]\n\n", standardOutput.toString());
+    }
+
     private void mockRaportGenerationService() throws NoSuchFieldException, IllegalAccessException {
         Field serviceField = Main.class.getDeclaredField("raportGenerationService");
         serviceField.setAccessible(true);

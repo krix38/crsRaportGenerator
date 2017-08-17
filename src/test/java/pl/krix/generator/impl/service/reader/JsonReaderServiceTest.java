@@ -1,9 +1,9 @@
 package pl.krix.generator.impl.service.reader;
 
 import org.junit.Test;
-import pl.krix.generator.api.service.reader.HeaderReader;
+import pl.krix.generator.api.service.reader.JsonReader;
 import pl.krix.generator.domain.xml.TNaglowek;
-import pl.krix.generator.exception.HeaderReaderException;
+import pl.krix.generator.exception.JsonReaderException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by krix on 12.08.2017.
  */
-public class HeaderReaderServiceTest {
+public class JsonReaderServiceTest {
 
-    private HeaderReader headerReader = new HeaderServiceImpl();
+    private JsonReader jsonReader = new JsonReaderServiceImpl(TNaglowek.class);
     private Calendar calendar = Calendar.getInstance();
 
 
@@ -41,9 +41,9 @@ public class HeaderReaderServiceTest {
             "}";
 
     @Test
-    public void testCorrectJsonInputReading() throws HeaderReaderException {
+    public void testCorrectJsonInputReading() throws JsonReaderException {
         InputStream inputStream = new ByteArrayInputStream(correctJsonInput.getBytes(StandardCharsets.UTF_8));
-        TNaglowek header = headerReader.readHeder(inputStream);
+        TNaglowek header = (TNaglowek)jsonReader.read(inputStream);
         calendar.setTime(header.getRok());
         assertEquals("1", header.getIdWiadomosci());
         assertEquals(2017, calendar.get(Calendar.YEAR));
@@ -57,14 +57,14 @@ public class HeaderReaderServiceTest {
 
     }
 
-    @Test(expected = HeaderReaderException.class)
-    public void testBadJsonInputReading() throws HeaderReaderException {
+    @Test(expected = JsonReaderException.class)
+    public void testBadJsonInputReading() throws JsonReaderException {
         InputStream inputStream = new ByteArrayInputStream(badJsonInput.getBytes(StandardCharsets.UTF_8));
-        headerReader.readHeder(inputStream);
+        jsonReader.read(inputStream);
     }
 
-    @Test(expected = HeaderReaderException.class)
-    public void testNullJsonInputReading() throws HeaderReaderException {
-        headerReader.readHeder(null);
+    @Test(expected = JsonReaderException.class)
+    public void testNullJsonInputReading() throws JsonReaderException {
+        jsonReader.read(null);
     }
 }

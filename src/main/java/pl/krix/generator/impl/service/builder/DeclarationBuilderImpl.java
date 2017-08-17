@@ -40,6 +40,12 @@ public class DeclarationBuilderImpl implements DeclarationBuilder {
     }
 
     @Override
+    public DeclarationBuilder sendingEntity(Deklaracja.Podmiot1 entity){
+        this.deklaracja.setPodmiot1(entity);
+        return this;
+    }
+
+    @Override
     public Deklaracja build(){
         if(headerDataIsSet()){
             generateIdsForHeaderAndCRSRaports();

@@ -15,4 +15,6 @@ public interface DeclarationBuilder {
     DeclarationBuilder crsBodyList(List<CrsBodyType> crsBodyTypeList);
 
     Deklaracja build();
+
+    DeclarationBuilder sendingEntity(Deklaracja.Podmiot1 entity);
 }

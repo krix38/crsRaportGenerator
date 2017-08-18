@@ -52,9 +52,6 @@ public class MainClassTest {
     private void mockRaportGenerationService() throws NoSuchFieldException, IllegalAccessException {
         Field serviceField = Main.class.getDeclaredField("raportGenerationService");
         serviceField.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(serviceField, serviceField.getModifiers() & ~Modifier.FINAL);
         serviceField.set(null, new RaportGenerationServiceMock());
     }
 }

@@ -35,21 +35,27 @@ public class DeclarationFactoryImpl implements DeclarationFactory {
     @SuppressWarnings("unchecked")
     public DeclarationFactoryImpl() {
         this(new JsonReaderServiceImpl(Deklaracja.class), null);
-        try {
-            this.metaDataInputStream = new FileInputStream(new File(DEFAULT_METADATA_INPUT_PATH));
-        } catch (FileNotFoundException e) {
-            throw new JsonFileNotFoundException("Metadata json file not found");
-        }
     }
 
     @Override
     public Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList){
+        initializeMetadataInputStream();
         Deklaracja declaration = (Deklaracja) jsonReader.read(metaDataInputStream);
         declaration.getCRS().addAll(crsBodyTypeList);
         if(requiredMetadataIsSet(declaration)){
             generateIdsForHeaderAndCRSRaports(declaration);
         }
         return declaration;
+    }
+
+    private void initializeMetadataInputStream() {
+        if(metaDataInputStream == null){
+            try {
+                this.metaDataInputStream = new FileInputStream(new File(DEFAULT_METADATA_INPUT_PATH));
+            } catch (FileNotFoundException e) {
+                throw new JsonFileNotFoundException("Metadata json file not found");
+            }
+        }
     }
 
     private void generateIdsForHeaderAndCRSRaports(Deklaracja declaration) {

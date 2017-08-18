@@ -2,6 +2,7 @@ package pl.krix.generator.impl.service.reader;
 
 import org.junit.Test;
 import pl.krix.generator.api.service.reader.JsonReader;
+import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.TNaglowek;
 import pl.krix.generator.exception.JsonReaderException;
 
@@ -17,21 +18,29 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonReaderServiceTest {
 
-    private JsonReader jsonReader = new JsonReaderServiceImpl(TNaglowek.class);
+    private JsonReader jsonReader = new JsonReaderServiceImpl(Deklaracja.class);
     private Calendar calendar = Calendar.getInstance();
+
 
 
     private String correctJsonInput =
             "{" +
-                    "\"idWiadomosci\": 1," +
-                    "\"rok\": \"2017\"," +
-                    "\"kodFormularza\": {" +
-                    "                       \"value\": \"CRS_1\"," +
-                    "                       \"kodSystemowy\": \"CRS-1 (1)\"," +
-                    "                       \"wersjaSchemy\": \"1-0E\"" +
-                    "                   }," +
-                    "\"wariantFormularza\": 1," +
-                    "\"idWiadomosciKorygowanej\": [\"A\", \"B\", \"C\"]" +
+            "    \"naglowek\": {" +
+            "                    \"idWiadomosci\": 1," +
+            "                    \"rok\": \"2017\"," +
+            "                    \"kodFormularza\": {" +
+            "                                           \"value\": \"CRS_1\"," +
+            "                                           \"kodSystemowy\": \"CRS-1 (1)\"," +
+            "                                           \"wersjaSchemy\": \"1-0E\"" +
+            "                                       }," +
+            "                    \"wariantFormularza\": 1," +
+            "                    \"idWiadomosciKorygowanej\": [\"A\", \"B\", \"C\"]" +
+            "                  }," +
+            "     \"podmiot1\": {" +
+            "                    \"nazwaPodmiotu\": \"bank\"," +
+            "                    \"nip\": \"1234567\"" +
+            "                   }," +
+            "     \"version\": \"2.0\"" +
             "}";
 
 
@@ -43,18 +52,20 @@ public class JsonReaderServiceTest {
     @Test
     public void testCorrectJsonInputReading() throws JsonReaderException {
         InputStream inputStream = new ByteArrayInputStream(correctJsonInput.getBytes(StandardCharsets.UTF_8));
-        TNaglowek header = (TNaglowek)jsonReader.read(inputStream);
-        calendar.setTime(header.getRok());
-        assertEquals("1", header.getIdWiadomosci());
+        Deklaracja declaration = (Deklaracja) jsonReader.read(inputStream);
+        calendar.setTime(declaration.getNaglowek().getRok());
+        assertEquals("1", declaration.getNaglowek().getIdWiadomosci());
         assertEquals(2017, calendar.get(Calendar.YEAR));
-        assertEquals("CRS-1", header.getKodFormularza().getValue().value());
-        assertEquals("CRS-1 (1)", header.getKodFormularza().getKodSystemowy());
-        assertEquals("1-0E", header.getKodFormularza().getWersjaSchemy());
-        assertEquals(1, header.getWariantFormularza());
-        assertEquals("A", header.getIdWiadomosciKorygowanej().get(0));
-        assertEquals("B", header.getIdWiadomosciKorygowanej().get(1));
-        assertEquals("C", header.getIdWiadomosciKorygowanej().get(2));
-
+        assertEquals("CRS-1", declaration.getNaglowek().getKodFormularza().getValue().value());
+        assertEquals("CRS-1 (1)", declaration.getNaglowek().getKodFormularza().getKodSystemowy());
+        assertEquals("1-0E", declaration.getNaglowek().getKodFormularza().getWersjaSchemy());
+        assertEquals(1, declaration.getNaglowek().getWariantFormularza());
+        assertEquals("A", declaration.getNaglowek().getIdWiadomosciKorygowanej().get(0));
+        assertEquals("B", declaration.getNaglowek().getIdWiadomosciKorygowanej().get(1));
+        assertEquals("C", declaration.getNaglowek().getIdWiadomosciKorygowanej().get(2));
+        assertEquals("bank", declaration.getPodmiot1().getNazwaPodmiotu());
+        assertEquals("1234567", declaration.getPodmiot1().getNIP());
+        assertEquals("2.0", declaration.getVersion());
     }
 
     @Test(expected = JsonReaderException.class)

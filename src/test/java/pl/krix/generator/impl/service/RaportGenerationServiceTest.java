@@ -33,7 +33,6 @@ public class RaportGenerationServiceTest {
                 new CsvDeserializerMock(),
                 new CsvToXmlMapperMock(),
                 new XmlMarshallerMock(),
-                new HeadeReaderMock(),
-                new DeclarationBuilderMock());
+                new DeclarationFactoryMock());
     }
 }

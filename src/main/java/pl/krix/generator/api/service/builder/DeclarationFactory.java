@@ -9,12 +9,6 @@ import java.util.List;
 /**
  * Created by krix on 15.08.2017.
  */
-public interface DeclarationBuilder {
-    DeclarationBuilder header(TNaglowek header);
-
-    DeclarationBuilder crsBodyList(List<CrsBodyType> crsBodyTypeList);
-
-    Deklaracja build();
-
-    DeclarationBuilder sendingEntity(Deklaracja.Podmiot1 entity);
+public interface DeclarationFactory {
+    Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList);
 }

@@ -1,6 +1,7 @@
 package pl.krix.generator.impl.service.marshaller;
 
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
@@ -53,7 +54,10 @@ public class XmlMarshallerImpl implements XmlMarshaller {
         try {
             marshaller.marshal(inputObject, outputStream);
         } catch (JAXBException exception) {
-            throw new MarshallingException("output marshalling error", exception);
+            if(exception.getLinkedException() instanceof SAXParseException){
+                throw new MarshallingException(String.format("Output marshalling error: %s", exception.getLinkedException().getMessage()), exception);
+            }
+            throw new MarshallingException("Output marshalling error", exception);
         }
     }
 

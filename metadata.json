@@ -1,20 +1,49 @@
 {
-  "naglowek": {
-    "rok": "2017",
-    "kodFormularza": {
-      "value": "CRS_1",
-      "kodSystemowy": "CRS-1 (1)",
-      "wersjaSchemy": "1-0E"
+  "naglowek" : {
+    "kodFormularza" : {
+      "value" : "CRS_1",
+      "kodSystemowy" : "CRS-1 (1)",
+      "wersjaSchemy" : "1-0E"
     },
-    "wariantFormularza": 1,
-    "idWiadomosciKorygowanej" : ["A", "B", "C"]
+    "wariantFormularza" : 1,
+    "rok" : 1483311600000,
+    "idWiadomosci" : "2017711F88C0EA3",
+    "idWiadomosciKorygowanej" : [ ]
   },
-
-  "podmiot1": {
-    "nazwaPodmiotu": "bank",
-    "nip": "4942118399"
+  "podmiot1" : {
+    "nazwaPodmiotu" : "bank",
+    "nip" : "4942118399"
   },
-
-  "version": "2.0"
-
+  "crs" : [ {
+    "reportingFI" : {
+      "resCountryCode" : "PL",
+      "in" : "4942118399",
+      "name" : {
+        "value" : "bank"
+      },
+      "address" : {
+        "content" : [ {
+          "name" : "{http://crd.gov.pl/wzor/2017/07/12/4274/}CountryCode",
+          "declaredType" : "java.lang.String",
+          "scope" : "pl.krix.generator.domain.xml.AddressType",
+          "value" : "PL"
+        }, {
+          "name" : "{http://crd.gov.pl/wzor/2017/07/12/4274/}AddressFree",
+          "declaredType" : "java.lang.String",
+          "scope" : "pl.krix.generator.domain.xml.AddressType",
+          "value" : "a"
+        } ],
+        "legalAddressType" : "OECD_301"
+      },
+      "docSpec" : {
+        "docTypeIndic" : "OECD_0",
+        "docRefId" : "1",
+        "corrDocRefId" : "1"
+      }
+    },
+    "reportingGroup" : {
+      "accountReport" : [ ]
+    }
+  } ],
+  "version" : "2.0"
 }

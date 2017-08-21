@@ -24,24 +24,52 @@ public class JsonReaderServiceTest {
 
 
     private String correctJsonInput =
-            "{" +
-            "    \"naglowek\": {" +
-            "                    \"idWiadomosci\": 1," +
-            "                    \"rok\": \"2017\"," +
-            "                    \"kodFormularza\": {" +
-            "                                           \"value\": \"CRS_1\"," +
-            "                                           \"kodSystemowy\": \"CRS-1 (1)\"," +
-            "                                           \"wersjaSchemy\": \"1-0E\"" +
-            "                                       }," +
-            "                    \"wariantFormularza\": 1," +
-            "                    \"idWiadomosciKorygowanej\": [\"A\", \"B\", \"C\"]" +
-            "                  }," +
-            "     \"podmiot1\": {" +
-            "                    \"nazwaPodmiotu\": \"bank\"," +
-            "                    \"nip\": \"1234567\"" +
-            "                   }," +
-            "     \"version\": \"2.0\"" +
-            "}";
+                    "{" +
+                    "    \"Naglowek\": {" +
+                    "                    \"IdWiadomosci\": 1," +
+                    "                    \"Rok\": \"2017\"," +
+                    "                    \"KodFormularza\": {" +
+                    "                                           \"value\": \"CRS-1\"," +
+                    "                                           \"kodSystemowy\": \"CRS-1 (1)\"," +
+                    "                                           \"wersjaSchemy\": \"1-0E\"" +
+                    "                                       }," +
+                    "                    \"WariantFormularza\": 1," +
+                    "                    \"IdWiadomosciKorygowanej\": [\"A\", \"B\", \"C\"]" +
+                    "                  }," +
+                    "     \"CRS\":     [{" +
+                    "                    \"ReportingFI\": {" +
+                    "                                        \"DocSpec\": {" +
+                    "                                                            \"DocTypeIndic\": \"OECD0\"," +
+                    "                                                            \"DocRefId\": \"20173866688995361091\"," +
+                    "                                                            \"CorrDocRefId\": \"A\"" +
+                    "                                                     }," +
+                    "                                        \"ResCountryCode\": \"PL\"," +
+                    "                                        \"IN\": \"4942118399\"," +
+                    "                                        \"Name\": {" +
+                    "                                                            \"value\": \"bank\"" +
+                    "                                                  }," +
+                            "      \"Address\" : {" +
+                            "        \"content\" : [ {" +
+                            "          \"name\" : \"{http://crd.gov.pl/wzor/2017/07/12/4274/}CountryCode\"," +
+                            "          \"declaredType\" : \"java.lang.String\"," +
+                            "          \"scope\" : \"pl.krix.generator.domain.xml.AddressType\"," +
+                            "          \"value\" : \"PL\"" +
+                            "        }, {" +
+                            "          \"name\" : \"{http://crd.gov.pl/wzor/2017/07/12/4274/}AddressFree\"," +
+                            "          \"declaredType\" : \"java.lang.String\"," +
+                            "          \"scope\" : \"pl.krix.generator.domain.xml.AddressType\"," +
+                            "          \"value\" : \"a\"" +
+                            "        } ]," +
+                            "        \"legalAddressType\" : \"OECD_301\"" +
+                            "      }" +
+                    "                                     }" +
+                    "                   }]," +
+                    "     \"Podmiot1\": {" +
+                    "                    \"NazwaPodmiotu\": \"bank\"," +
+                    "                    \"NIP\": \"1234567\"" +
+                    "                   }," +
+                    "     \"version\": \"2.0\"" +
+                    "}";
 
 
     private String badJsonInput =

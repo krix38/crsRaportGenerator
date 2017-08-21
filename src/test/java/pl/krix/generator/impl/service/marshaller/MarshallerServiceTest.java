@@ -1,5 +1,8 @@
 package pl.krix.generator.impl.service.marshaller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Test;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
@@ -68,7 +71,13 @@ public class MarshallerServiceTest {
     }
 
     @Test
-    public void marshallingTest() throws MarshallingException, UnsupportedEncodingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+    public void marshallingTest() throws MarshallingException, UnsupportedEncodingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException, JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        System.out.println(objectMapper.writeValueAsString(deklaracja));
+
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         xmlMarshaller.marshallToXml(this.deklaracja, byteArrayOutputStream);
         String outputXml = byteArrayOutputStream.toString(xmlMarshaller.getEncoding());

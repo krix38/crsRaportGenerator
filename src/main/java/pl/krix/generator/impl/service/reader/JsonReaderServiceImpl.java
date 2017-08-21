@@ -1,10 +1,17 @@
 package pl.krix.generator.impl.service.reader;
 
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import pl.krix.generator.api.service.reader.JsonReader;
+import pl.krix.generator.domain.xml.CrsBodyType;
+import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.TNaglowek;
 import pl.krix.generator.exception.JsonReaderException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBIntrospector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
@@ -23,7 +30,11 @@ public class JsonReaderServiceImpl<T> implements JsonReader {
     private ObjectMapper mapper = new ObjectMapper();
 
     public JsonReaderServiceImpl(Class<T> typeParameter) {
+
+        AnnotationIntrospector introspector =
+                new JaxbAnnotationIntrospector(mapper.getTypeFactory());
         this.typeParameter = typeParameter;
+        mapper.setAnnotationIntrospector(introspector);
         setDateFormatForMapper();
     }
 

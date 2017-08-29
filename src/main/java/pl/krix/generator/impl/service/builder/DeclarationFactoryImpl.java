@@ -43,7 +43,7 @@ public class DeclarationFactoryImpl implements DeclarationFactory {
     @Override
     public Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList){
         initializeMetadataInputStream();
-        Deklaracja declaration = (Deklaracja) xmlMarshaller.unmarshallFromXml(metaDataInputStream);
+        Deklaracja declaration = xmlMarshaller.unmarshallFromXml(metaDataInputStream);
         declaration.getCRS().addAll(crsBodyTypeList);
         if(requiredMetadataIsSet(declaration)){
             generateIdsForHeaderAndCRSRaports(declaration);

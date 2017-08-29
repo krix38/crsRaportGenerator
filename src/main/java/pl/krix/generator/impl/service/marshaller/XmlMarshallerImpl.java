@@ -3,20 +3,19 @@ package pl.krix.generator.impl.service.marshaller;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
-import pl.krix.generator.domain.xml.CrsBodyType;
-import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.exception.InvalidMarshallerInputException;
 import pl.krix.generator.exception.InvalidMarshallerOutputArgumentException;
 import pl.krix.generator.exception.MarshallerCreationException;
-import pl.krix.generator.exception.MarshallingException;
+import pl.krix.generator.exception.MarshallerException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
-import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -27,6 +26,7 @@ public class XmlMarshallerImpl implements XmlMarshaller {
     private static final String MARSHALLER_ENCODING = "UTF-8";
 
     private Marshaller marshaller;
+    private Unmarshaller unmarshaller;
     private static final String DEFAULT_SCHEMA_LOCATION = "xsd/schemat-CRS-11-wersja-ostateczna.xsd";
 
     public XmlMarshallerImpl(Class tClass) {
@@ -35,6 +35,7 @@ public class XmlMarshallerImpl implements XmlMarshaller {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Source schemaSource = getSchemaSource();
             this.marshaller = jaxbContext.createMarshaller();
+            this.unmarshaller = jaxbContext.createUnmarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, MARSHALLER_ENCODING);
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.setSchema(schemaFactory.newSchema(schemaSource));
@@ -49,20 +50,37 @@ public class XmlMarshallerImpl implements XmlMarshaller {
     }
 
     @Override
-    public <InputType> void  marshallToXml(InputType inputObject, OutputStream outputStream) throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+    public <InputType> void  marshallToXml(InputType inputObject, OutputStream outputStream) throws MarshallerException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
         checkArguments(inputObject, outputStream);
         try {
             marshaller.marshal(inputObject, outputStream);
         } catch (JAXBException exception) {
             if(exception.getLinkedException() instanceof SAXParseException){
-                throw new MarshallingException(String.format("Output marshalling error: %s", exception.getLinkedException().getMessage()), exception);
+                throw new MarshallerException(String.format("Output marshalling error: %s", exception.getLinkedException().getMessage()), exception);
             }
-            throw new MarshallingException("Output marshalling error", exception);
+            throw new MarshallerException("Output marshalling error", exception);
         }
     }
 
-    private <InputType> void checkArguments(InputType deklaracja, OutputStream outputStream) throws InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
-        if(deklaracja == null){
+    @SuppressWarnings("unchecked")
+    @Override
+    public <InputType> InputType unmarshallFromXml(InputStream inputStream){
+        checkArguments(inputStream);
+        try {
+            return (InputType) unmarshaller.unmarshal(inputStream);
+        } catch (JAXBException exception) {
+            throw new MarshallerException("Input unmarshalling error", exception);
+        }
+    }
+
+    private void checkArguments(InputStream inputStream) {
+        if(inputStream == null){
+            throw new InvalidMarshallerInputException("Marshaller input cant be null");
+        }
+    }
+
+    private <InputType> void checkArguments(InputType inputType, OutputStream outputStream) throws InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+        if(inputType == null){
             throw new InvalidMarshallerInputException("Marshaller input cant be null");
         }
         if(outputStream == null){

@@ -1,15 +1,18 @@
 package pl.krix.generator.impl.service.builder;
 
 import pl.krix.generator.api.service.builder.DeclarationFactory;
-import pl.krix.generator.api.service.reader.JsonReader;
+import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.exception.JsonFileNotFoundException;
-import pl.krix.generator.impl.service.reader.JsonReaderServiceImpl;
+import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
 import pl.krix.generator.util.ObjectChecksumUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,26 +24,26 @@ public class DeclarationFactoryImpl implements DeclarationFactory {
 
     ObjectFactory objectFactory = new ObjectFactory();
 
-    private JsonReader jsonReader;
+    private XmlMarshaller xmlMarshaller;
 
     private InputStream metaDataInputStream ;
 
-    private static final String DEFAULT_METADATA_INPUT_PATH = "metadata.json";
+    private static final String DEFAULT_METADATA_INPUT_PATH = "metadata.xml";
 
-    public DeclarationFactoryImpl(JsonReader jsonReader, InputStream inputStream) {
-        this.jsonReader = jsonReader;
+    public DeclarationFactoryImpl(XmlMarshaller xmlMarshaller, InputStream inputStream) {
+        this.xmlMarshaller = xmlMarshaller;
         this.metaDataInputStream = inputStream;
     }
 
     @SuppressWarnings("unchecked")
     public DeclarationFactoryImpl() {
-        this(new JsonReaderServiceImpl(Deklaracja.class), null);
+        this(new XmlMarshallerImpl(Deklaracja.class), null);
     }
 
     @Override
     public Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList){
         initializeMetadataInputStream();
-        Deklaracja declaration = (Deklaracja) jsonReader.read(metaDataInputStream);
+        Deklaracja declaration = (Deklaracja) xmlMarshaller.unmarshallFromXml(metaDataInputStream);
         declaration.getCRS().addAll(crsBodyTypeList);
         if(requiredMetadataIsSet(declaration)){
             generateIdsForHeaderAndCRSRaports(declaration);

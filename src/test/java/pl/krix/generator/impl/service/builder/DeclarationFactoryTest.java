@@ -4,13 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.krix.generator.api.service.builder.DeclarationFactory;
 import pl.krix.generator.domain.xml.*;
-import pl.krix.generator.impl.service.mock.JsonReaderMock;
+import pl.krix.generator.impl.service.mock.XmlMarshallerMock;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class DeclarationFactoryTest {
 
     private List<CrsBodyType> crsBodyTypeList = new ArrayList<>();
 
-    private String correctJsonInput =
+    private String correctXmlInput =
             "{" +
             "    \"naglowek\": {" +
             "                    \"idWiadomosci\": 1," +
@@ -45,7 +43,7 @@ public class DeclarationFactoryTest {
     @Before
     public void setup() throws ParseException {
         setCrsBodyTypeList();
-        this.declarationFactory = new DeclarationFactoryImpl(new JsonReaderMock(), new ByteArrayInputStream(correctJsonInput.getBytes(StandardCharsets.UTF_8)));
+        this.declarationFactory = new DeclarationFactoryImpl(new XmlMarshallerMock(), new ByteArrayInputStream(correctXmlInput.getBytes(StandardCharsets.UTF_8)));
     }
 
     @Test

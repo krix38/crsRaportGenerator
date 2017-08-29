@@ -6,30 +6,59 @@ import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.*;
 import pl.krix.generator.exception.InvalidMarshallerInputException;
 import pl.krix.generator.exception.InvalidMarshallerOutputArgumentException;
-import pl.krix.generator.exception.MarshallingException;
+import pl.krix.generator.exception.MarshallerException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 /**
  * Created by krix on 07.08.2017.
  */
-public class MarshallerServiceTest {
+public class XmlMarshallerServiceTest {
 
 
     private ObjectFactory objectFactory = new ObjectFactory();
     private XmlMarshaller xmlMarshaller;
     private Deklaracja deklaracja;
+
+    private String correctXml = "" +
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+            "<Deklaracja xmlns=\"http://crd.gov.pl/wzor/2017/07/12/4274/\" version=\"2.0\">" +
+            "    <Naglowek>" +
+            "        <KodFormularza kodSystemowy=\"CRS-1 (1)\" wersjaSchemy=\"1-0E\">CRS-1</KodFormularza>" +
+            "        <WariantFormularza>1</WariantFormularza>" +
+            "        <Rok>2017</Rok>" +
+            "        <IdWiadomosci>2017711F88C0EA3</IdWiadomosci>" +
+            "    </Naglowek>" +
+            "    <Podmiot1>" +
+            "        <NazwaPodmiotu>bank</NazwaPodmiotu>" +
+            "        <NIP>4942118399</NIP>" +
+            "    </Podmiot1>" +
+            "    <CRS>" +
+            "        <ReportingFI>" +
+            "            <ResCountryCode>PL</ResCountryCode>" +
+            "            <IN>4942118399</IN>" +
+            "            <Name>bank</Name>" +
+            "            <Address legalAddressType=\"OECD301\">" +
+            "                <CountryCode>PL</CountryCode>" +
+            "                <AddressFree>a</AddressFree>" +
+            "            </Address>" +
+            "            <DocSpec>" +
+            "                <DocTypeIndic>OECD0</DocTypeIndic>" +
+            "                <DocRefId>1</DocRefId>" +
+            "                <CorrDocRefId>1</CorrDocRefId>" +
+            "            </DocSpec>" +
+            "        </ReportingFI>" +
+            "        <ReportingGroup/>" +
+            "    </CRS>" +
+            "</Deklaracja>";
 
     @Before
     public void setup() throws ParseException {
@@ -68,7 +97,7 @@ public class MarshallerServiceTest {
     }
 
     @Test
-    public void marshallingTest() throws MarshallingException, UnsupportedEncodingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+    public void marshallingTest() throws MarshallerException, UnsupportedEncodingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         xmlMarshaller.marshallToXml(this.deklaracja, byteArrayOutputStream);
         String outputXml = byteArrayOutputStream.toString(xmlMarshaller.getEncoding());
@@ -77,14 +106,22 @@ public class MarshallerServiceTest {
 
     }
 
+    @Test
+    public void unmarshallingTest() {
+        InputStream inputStream = new ByteArrayInputStream(correctXml.getBytes(StandardCharsets.UTF_8));
+        Deklaracja deklaracja = xmlMarshaller.unmarshallFromXml(inputStream);
+        assertEquals("2017711F88C0EA3", deklaracja.getNaglowek().getIdWiadomosci());
+        assertEquals("2017", (new SimpleDateFormat("YYYY")).format(deklaracja.getNaglowek().getRok()));
+    }
+
     @Test(expected = InvalidMarshallerInputException.class)
-    public void marshallerNullInputTest() throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+    public void marshallerNullInputTest() throws MarshallerException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         xmlMarshaller.marshallToXml(null, byteArrayOutputStream);
     }
 
     @Test(expected = InvalidMarshallerOutputArgumentException.class)
-    public void marshallerNullOutputArgumentTest() throws MarshallingException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
+    public void marshallerNullOutputArgumentTest() throws MarshallerException, InvalidMarshallerInputException, InvalidMarshallerOutputArgumentException {
         xmlMarshaller.marshallToXml(this.deklaracja, null);
     }
 

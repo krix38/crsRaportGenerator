@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2017/07/12/4274/" version="2.0">
+    <Naglowek>
+        <KodFormularza kodSystemowy="CRS-1 (1)" wersjaSchemy="1-0E">CRS-1</KodFormularza>
+        <WariantFormularza>1</WariantFormularza>
+        <Rok>2017</Rok>
+        <IdWiadomosci>2017711F88C0EA3</IdWiadomosci>
+    </Naglowek>
+    <Podmiot1>
+        <NazwaPodmiotu>bank</NazwaPodmiotu>
+        <NIP>4942118399</NIP>
+    </Podmiot1>
+    <CRS>
+        <ReportingFI>
+            <ResCountryCode>PL</ResCountryCode>
+            <IN>4942118399</IN>
+            <Name>bank</Name>
+            <Address legalAddressType="OECD301">
+                <CountryCode>PL</CountryCode>
+                <AddressFree>a</AddressFree>
+            </Address>
+            <DocSpec>
+                <DocTypeIndic>OECD0</DocTypeIndic>
+                <DocRefId>1</DocRefId>
+                <CorrDocRefId>1</CorrDocRefId>
+            </DocSpec>
+        </ReportingFI>
+        <ReportingGroup/>
+    </CRS>
+</Deklaracja>

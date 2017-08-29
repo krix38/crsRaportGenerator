@@ -17,7 +17,7 @@
             <directory>${project.basedir}</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>*.json</include>
+                <include>*.xml</include>
                 <include>*.csv</include>
             </includes>
         </fileSet>

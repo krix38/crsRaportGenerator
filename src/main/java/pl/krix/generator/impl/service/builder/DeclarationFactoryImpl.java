@@ -5,7 +5,7 @@ import pl.krix.generator.api.service.marshaller.XmlMarshaller;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
-import pl.krix.generator.exception.JsonFileNotFoundException;
+import pl.krix.generator.exception.XmlFileNotFoundException;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
 import pl.krix.generator.util.ObjectChecksumUtil;
 
@@ -56,7 +56,7 @@ public class DeclarationFactoryImpl implements DeclarationFactory {
             try {
                 this.metaDataInputStream = new FileInputStream(new File(DEFAULT_METADATA_INPUT_PATH));
             } catch (FileNotFoundException e) {
-                throw new JsonFileNotFoundException("Metadata json file not found");
+                throw new XmlFileNotFoundException("Metadata xml file not found");
             }
         }
     }

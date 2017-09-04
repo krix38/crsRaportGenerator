@@ -3,15 +3,16 @@ package pl.krix.generator.impl.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.krix.generator.api.service.RaportGenerationService;
-import pl.krix.generator.api.service.builder.DeclarationFactory;
+import pl.krix.generator.api.service.factory.DeclarationFactory;
 import pl.krix.generator.api.service.deserializer.CsvDeserializerService;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
+import pl.krix.generator.domain.xml.CorrectableAccountReportType;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.exception.ProcessingCsvInputException;
-import pl.krix.generator.impl.service.builder.DeclarationFactoryImpl;
+import pl.krix.generator.impl.service.factory.DeclarationFactoryImpl;
 import pl.krix.generator.impl.service.deserializer.CsvDeserializerServiceImpl;
 import pl.krix.generator.impl.service.mapper.CsvToXmlMapperImpl;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
@@ -62,11 +63,11 @@ public class RaportGenerationServiceImpl implements RaportGenerationService {
     }
 
     private void processCsvStream(Stream<String> csvStream){
-        Deklaracja declaration = declarationFactory.generateDeclaration(deserializeCsvStreamToCrsBodyType(csvStream));
+        Deklaracja declaration = declarationFactory.generateDeclaration(deserializeCsvStreamToAccountReportList(csvStream));
         marshaller.marshallToXml(declaration, System.out);
     }
 
-    private List<CrsBodyType> deserializeCsvStreamToCrsBodyType(Stream<String> csvStream){
+    private List<CorrectableAccountReportType> deserializeCsvStreamToAccountReportList(Stream<String> csvStream){
         return csvStream
                 .map(deserializerService::deserializeToCsv)
                 .map(mapper::map)

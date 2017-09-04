@@ -1,10 +1,8 @@
-package pl.krix.generator.impl.service.builder;
+package pl.krix.generator.impl.service.factory;
 
-import pl.krix.generator.api.service.builder.DeclarationFactory;
+import pl.krix.generator.api.service.factory.DeclarationFactory;
 import pl.krix.generator.api.service.marshaller.XmlMarshaller;
-import pl.krix.generator.domain.xml.CrsBodyType;
-import pl.krix.generator.domain.xml.Deklaracja;
-import pl.krix.generator.domain.xml.ObjectFactory;
+import pl.krix.generator.domain.xml.*;
 import pl.krix.generator.exception.XmlFileNotFoundException;
 import pl.krix.generator.impl.service.marshaller.XmlMarshallerImpl;
 import pl.krix.generator.util.ObjectChecksumUtil;
@@ -41,10 +39,10 @@ public class DeclarationFactoryImpl implements DeclarationFactory {
     }
 
     @Override
-    public Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList){
+    public Deklaracja generateDeclaration(List<CorrectableAccountReportType> accountReportList){
         initializeMetadataInputStream();
         Deklaracja declaration = xmlMarshaller.unmarshallFromXml(metaDataInputStream);
-        declaration.getCRS().addAll(crsBodyTypeList);
+        declaration.getCRS().get(0).getReportingGroup().getAccountReport().addAll(accountReportList);
         if(requiredMetadataIsSet(declaration)){
             generateIdsForHeaderAndCRSRaports(declaration);
         }

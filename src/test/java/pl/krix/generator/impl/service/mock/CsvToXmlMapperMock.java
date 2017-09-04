@@ -2,6 +2,7 @@ package pl.krix.generator.impl.service.mock;
 
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
 import pl.krix.generator.domain.csv.Csv;
+import pl.krix.generator.domain.xml.CorrectableAccountReportType;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.ObjectFactory;
 import pl.krix.generator.exception.InvalidMapperInputException;
@@ -14,7 +15,7 @@ public class CsvToXmlMapperMock implements CsvToXmlMapper {
     ObjectFactory objectFactory = new ObjectFactory();
 
     @Override
-    public CrsBodyType map(Csv csvSource) throws InvalidMapperInputException {
-        return objectFactory.createCrsBodyType();
+    public CorrectableAccountReportType map(Csv csvSource) throws InvalidMapperInputException {
+        return objectFactory.createCorrectableAccountReportType();
     }
 }

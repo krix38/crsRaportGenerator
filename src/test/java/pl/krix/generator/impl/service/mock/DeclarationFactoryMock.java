@@ -1,9 +1,9 @@
 package pl.krix.generator.impl.service.mock;
 
-import pl.krix.generator.api.service.builder.DeclarationFactory;
+import pl.krix.generator.api.service.factory.DeclarationFactory;
+import pl.krix.generator.domain.xml.CorrectableAccountReportType;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
-import pl.krix.generator.domain.xml.TNaglowek;
 
 import java.util.List;
 
@@ -12,8 +12,9 @@ import java.util.List;
  */
 public class DeclarationFactoryMock implements DeclarationFactory {
 
+
     @Override
-    public Deklaracja generateDeclaration(List<CrsBodyType> crsBodyTypeList) {
+    public Deklaracja generateDeclaration(List<CorrectableAccountReportType> accountReportList) {
         return new Deklaracja();
     }
 }

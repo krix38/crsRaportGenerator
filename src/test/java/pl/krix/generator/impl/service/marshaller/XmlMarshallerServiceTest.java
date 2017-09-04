@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,6 +95,53 @@ public class XmlMarshallerServiceTest {
         this.deklaracja.getCRS().get(0).getReportingFI().getAddress().getContent().add(objectFactory.createAddressTypeCountryCode("PL"));
         this.deklaracja.getCRS().get(0).getReportingFI().getAddress().getContent().add(objectFactory.createAddressTypeAddressFree("a"));
         this.deklaracja.getCRS().get(0).setReportingGroup(objectFactory.createCrsBodyTypeReportingGroup());
+
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().add(objectFactory.createCorrectableAccountReportType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).setDocSpec(objectFactory.createDocSpecType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getDocSpec().setDocTypeIndic(OECDDocTypeIndicEnumType.OECD_1);
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getDocSpec().setDocRefId("123");
+        CRSAccountNumberType accountNumberType = objectFactory.createCRSAccountNumberType();
+        accountNumberType.setValue("1234");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).setAccountNumber(accountNumberType);
+        AccountHolderType accountHolderType = objectFactory.createAccountHolderType();
+        PersonPartyType personPartyType = objectFactory.createPersonPartyType();
+        NamePersonType namePersonType = objectFactory.createNamePersonType();
+        namePersonType.setFirstName("JAN");
+        namePersonType.setLastName("KOWALSKI");
+        personPartyType.setName(namePersonType);
+        PersonPartyType.BirthInfo birthInfo = objectFactory.createPersonPartyTypeBirthInfo();
+        PersonPartyType.BirthInfo.CountryInfo countryInfo = objectFactory.createPersonPartyTypeBirthInfoCountryInfo();
+        countryInfo.setCountryCode("PL");
+        birthInfo.setCountryInfo(countryInfo);
+        personPartyType.getAddress().add(objectFactory.createAddressType());
+        personPartyType.getAddress().get(0).setLegalAddressType(OECDLegalAddressTypeEnumType.OECD_301);
+        personPartyType.getAddress().get(0).getContent().add(objectFactory.createAddressTypeCountryCode("PL"));
+        personPartyType.getAddress().get(0).getContent().add(objectFactory.createAddressTypeAddressFree("a"));
+        personPartyType.setBirthInfo(birthInfo);
+        personPartyType.getResCountryCode().add("PL");
+        accountHolderType.setIndividual(personPartyType);
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).setAccountHolder(accountHolderType);
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().add(objectFactory.createControllingPersonType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).setIndividual(objectFactory.createPersonPartyType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getResCountryCode().add("PL");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getTIN().add(objectFactory.createTINCRSType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getTIN().get(0).setValue("PL");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getTIN().get(0).setIssuedBy("PL");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().setName(objectFactory.createNamePersonType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getName().setFirstName("JAN");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getName().setLastName("KOWALSKI");
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getAddress().add(objectFactory.createAddressType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getAddress().get(0).setLegalAddressType(OECDLegalAddressTypeEnumType.OECD_301);
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getAddress().get(0).getContent().add(objectFactory.createAddressTypeCountryCode("PL"));
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getControllingPerson().get(0).getIndividual().getAddress().get(0).getContent().add(objectFactory.createAddressTypeAddressFree("a"));
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).setAccountBalance(objectFactory.createMonAmntType());
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getAccountBalance().setValue(new BigDecimal(123123123));
+        this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getAccountBalance().setCurrCode(CurrCodeType.ALL);
+
+
+
+
+
     }
 
     @Test

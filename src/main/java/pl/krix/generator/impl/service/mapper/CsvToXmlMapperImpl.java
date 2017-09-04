@@ -1,6 +1,7 @@
 package pl.krix.generator.impl.service.mapper;
 
 import org.dozer.DozerBeanMapper;
+import pl.krix.generator.domain.xml.CorrectableAccountReportType;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
 import pl.krix.generator.api.service.mapper.CsvToXmlMapper;
@@ -46,9 +47,9 @@ public class CsvToXmlMapperImpl implements CsvToXmlMapper {
     }
 
     @Override
-    public CrsBodyType map(Csv csvSource) throws InvalidMapperInputException {
+    public CorrectableAccountReportType map(Csv csvSource) throws InvalidMapperInputException {
         checkInput(csvSource);
-        return mapper.map(csvSource, CrsBodyType.class);
+        return mapper.map(csvSource, CorrectableAccountReportType.class);
     }
 
     private void checkInput(Csv csvSource) throws InvalidMapperInputException {

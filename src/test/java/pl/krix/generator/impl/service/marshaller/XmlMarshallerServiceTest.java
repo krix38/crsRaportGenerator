@@ -138,10 +138,6 @@ public class XmlMarshallerServiceTest {
         this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getAccountBalance().setValue(new BigDecimal(123123123));
         this.deklaracja.getCRS().get(0).getReportingGroup().getAccountReport().get(0).getAccountBalance().setCurrCode(CurrCodeType.ALL);
 
-
-
-
-
     }
 
     @Test

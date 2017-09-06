@@ -15,10 +15,21 @@ import net.sf.jsefa.csv.annotation.CsvField;
 public class Csv {
 
     @CsvField(pos = 1)
-    private String messageId;
+    private String docTypeIndic;
 
     @CsvField(pos = 2)
-    private String someData;
+    private String accountNumberType;
 
+    @CsvField(pos = 3)
+    private String accountHolderName;
+
+    @CsvField(pos = 4)
+    private String accountHolderLastname;
+
+    @CsvField(pos = 5)
+    private String accountHolderCountry;
+
+    @CsvField(pos = 6)
+    private String accountHolderLegalAddressType;
 
 }

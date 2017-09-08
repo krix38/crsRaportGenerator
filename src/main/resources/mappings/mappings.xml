@@ -7,10 +7,17 @@
     <mapping>
         <class-a>pl.krix.generator.domain.xml.CorrectableAccountReportType</class-a>
         <class-b>pl.krix.generator.domain.csv.Csv</class-b>
+
         <field>
-            <a>docSpec.docRefId</a>
-            <b>messageId</b>
+            <a>docSpec.docTypeIndic</a>
+            <b>docTypeIndic</b>
         </field>
+
+        <field>
+            <a>accountNumber.value</a>
+            <b>accountNumber</b>
+        </field>
+
     </mapping>
 
 </mappings>

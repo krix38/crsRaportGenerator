@@ -7,6 +7,7 @@ import pl.krix.generator.domain.csv.Csv;
 import pl.krix.generator.domain.xml.CorrectableAccountReportType;
 import pl.krix.generator.domain.xml.CrsBodyType;
 import pl.krix.generator.domain.xml.Deklaracja;
+import pl.krix.generator.domain.xml.OECDDocTypeIndicEnumType;
 import pl.krix.generator.exception.InvalidMapperInputException;
 import pl.krix.generator.exception.MissingMappingException;
 
@@ -26,13 +27,14 @@ public class MapperServiceTest {
     @Before
     public void setup() throws FileNotFoundException, MissingMappingException {
         mapper =  new CsvToXmlMapperImpl();
-        correctCsvMock.setMessageId("1");
+        correctCsvMock.setDocTypeIndic("OECD_1");
+        correctCsvMock.setAccountNumber("1234");
     }
 
     @Test
     public void mapperTest() throws InvalidMapperInputException {
         CorrectableAccountReportType accountReport = mapper.map(correctCsvMock);
-        assertEquals("1", accountReport.getDocSpec().getCorrDocRefId());
+        assertEquals(OECDDocTypeIndicEnumType.OECD_1, accountReport.getDocSpec().getDocTypeIndic());
     }
 
     @Test(expected = MissingMappingException.class)

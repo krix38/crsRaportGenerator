@@ -18,24 +18,24 @@ public class DeserializerServiceTest {
 
     @Test
     public void deserializerSingleLineTest() throws InvalidDeserializerInputException {
-        Csv csv = csvDeserializerService.deserializeToCsv("1;test");
-        assertEquals("1", csv.getMessageId());
-        assertEquals("test", csv.getSomeData());
+        Csv csv = csvDeserializerService.deserializeToCsv("OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL");
+        assertEquals("123123123", csv.getAccountBalance());
+        assertEquals("KOWALSKI", csv.getAccountHolderLastname());
     }
 
     @Test
     public void deserializerMultiLineTest() throws InvalidDeserializerInputException {
         String multilineCsv =
-                "1;test\n" +
-                "2;foo\n" +
-                "3;bar";
+                "OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL\n" +
+                "OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL\n" +
+                "OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL\n";
         List<Csv> csvList = csvDeserializerService.deserializeToCsvList(multilineCsv);
-        assertEquals("1", csvList.get(0).getMessageId());
-        assertEquals("test", csvList.get(0).getSomeData());
-        assertEquals("2", csvList.get(1).getMessageId());
-        assertEquals("foo", csvList.get(1).getSomeData());
-        assertEquals("3", csvList.get(2).getMessageId());
-        assertEquals("bar", csvList.get(2).getSomeData());
+        assertEquals("123123123", csvList.get(0).getAccountBalance());
+        assertEquals("KOWALSKI", csvList.get(0).getAccountHolderLastname());
+        assertEquals("123123123", csvList.get(1).getAccountBalance());
+        assertEquals("KOWALSKI", csvList.get(1).getAccountHolderLastname());
+        assertEquals("123123123", csvList.get(2).getAccountBalance());
+        assertEquals("KOWALSKI", csvList.get(2).getAccountHolderLastname());
     }
 
     @Test(expected = InvalidDeserializerInputException.class)

@@ -18,7 +18,7 @@ public class Csv {
     private String docTypeIndic;
 
     @CsvField(pos = 2)
-    private String accountNumberType;
+    private String accountNumber;
 
     @CsvField(pos = 3)
     private String accountHolderName;

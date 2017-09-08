@@ -14,16 +14,16 @@ public class CsvDeserializerMock implements CsvDeserializerService {
     @Override
     public Csv deserializeToCsv(String csvInput) throws InvalidDeserializerInputException {
         Csv csv = new Csv();
-        csv.setMessageId("1");
-        csv.setSomeData("2");
+        csv.setAccountBalance("1");
+        csv.setAccountHolderLastname("2");
         return csv;
     }
 
     @Override
     public List<Csv> deserializeToCsvList(String csvInput) throws InvalidDeserializerInputException {
         Csv csv = new Csv();
-        csv.setMessageId("1");
-        csv.setSomeData("2");
+        csv.setAccountBalance("1");
+        csv.setAccountHolderLastname("2");
         ArrayList<Csv> csvs = new ArrayList<>();
         csvs.add(csv);
         return csvs;

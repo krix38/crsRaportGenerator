@@ -20,7 +20,7 @@ public class DeserializerServiceTest {
     public void deserializerSingleLineTest() throws InvalidDeserializerInputException {
         Csv csv = csvDeserializerService.deserializeToCsv("OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL");
         assertEquals("123123123", csv.getAccountBalance());
-        assertEquals("KOWALSKI", csv.getAccountHolderLastname());
+        assertEquals("KOWALSKI", csv.getAccountHolderLastName());
     }
 
     @Test
@@ -31,11 +31,11 @@ public class DeserializerServiceTest {
                 "OECD1;1234;JAN;KOWALSKI;PL;OECD301;PL;a;PL;PL;PL;PL;JAN;KOWALSKI;OECD301;PL;a;123123123;ALL\n";
         List<Csv> csvList = csvDeserializerService.deserializeToCsvList(multilineCsv);
         assertEquals("123123123", csvList.get(0).getAccountBalance());
-        assertEquals("KOWALSKI", csvList.get(0).getAccountHolderLastname());
+        assertEquals("KOWALSKI", csvList.get(0).getAccountHolderLastName());
         assertEquals("123123123", csvList.get(1).getAccountBalance());
-        assertEquals("KOWALSKI", csvList.get(1).getAccountHolderLastname());
+        assertEquals("KOWALSKI", csvList.get(1).getAccountHolderLastName());
         assertEquals("123123123", csvList.get(2).getAccountBalance());
-        assertEquals("KOWALSKI", csvList.get(2).getAccountHolderLastname());
+        assertEquals("KOWALSKI", csvList.get(2).getAccountHolderLastName());
     }
 
     @Test(expected = InvalidDeserializerInputException.class)

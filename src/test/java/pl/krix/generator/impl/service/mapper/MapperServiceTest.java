@@ -29,12 +29,17 @@ public class MapperServiceTest {
         mapper =  new CsvToXmlMapperImpl();
         correctCsvMock.setDocTypeIndic("OECD_1");
         correctCsvMock.setAccountNumber("1234");
+        correctCsvMock.setAccountHolderName("JAN");
+        correctCsvMock.setAccountHolderLastName("KOWALSKI");
     }
 
     @Test
     public void mapperTest() throws InvalidMapperInputException {
         CorrectableAccountReportType accountReport = mapper.map(correctCsvMock);
         assertEquals(OECDDocTypeIndicEnumType.OECD_1, accountReport.getDocSpec().getDocTypeIndic());
+        assertEquals("1234", accountReport.getAccountNumber().getValue());
+        assertEquals("JAN", accountReport.getAccountHolder().getIndividual().getName().getFirstName());
+        assertEquals("KOWALSKI", accountReport.getAccountHolder().getIndividual().getName().getLastName());
     }
 
     @Test(expected = MissingMappingException.class)

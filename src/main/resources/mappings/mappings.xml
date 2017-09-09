@@ -18,6 +18,16 @@
             <b>accountNumber</b>
         </field>
 
+        <field>
+            <a>accountHolder.individual.name.firstName</a>
+            <b>accountHolderName</b>
+        </field>
+
+        <field>
+            <a>accountHolder.individual.name.lastName</a>
+            <b>accountHolderLastName</b>
+        </field>
+
     </mapping>
 
 </mappings>

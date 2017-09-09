@@ -24,7 +24,7 @@ public class Csv {
     private String accountHolderName;
 
     @CsvField(pos = 4)
-    private String accountHolderLastname;
+    private String accountHolderLastName;
 
     @CsvField(pos = 5)
     private String accountHolderCountry;
@@ -54,7 +54,7 @@ public class Csv {
     private String controllingPersonName;
 
     @CsvField(pos = 14)
-    private String controllingPersonLastname;
+    private String controllingPersonLastName;
 
     @CsvField(pos = 15)
     private String controllingPersonLegalAddressType;

@@ -15,7 +15,7 @@ public class CsvDeserializerMock implements CsvDeserializerService {
     public Csv deserializeToCsv(String csvInput) throws InvalidDeserializerInputException {
         Csv csv = new Csv();
         csv.setAccountBalance("1");
-        csv.setAccountHolderLastname("2");
+        csv.setAccountHolderLastName("2");
         return csv;
     }
 
@@ -23,7 +23,7 @@ public class CsvDeserializerMock implements CsvDeserializerService {
     public List<Csv> deserializeToCsvList(String csvInput) throws InvalidDeserializerInputException {
         Csv csv = new Csv();
         csv.setAccountBalance("1");
-        csv.setAccountHolderLastname("2");
+        csv.setAccountHolderLastName("2");
         ArrayList<Csv> csvs = new ArrayList<>();
         csvs.add(csv);
         return csvs;

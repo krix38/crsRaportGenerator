@@ -27,7 +27,7 @@ public class Csv {
     private String accountHolderLastName;
 
     @CsvField(pos = 5)
-    private String accountHolderCountry;
+    private String accountHolderBirthCountry;
 
     @CsvField(pos = 6)
     private String accountHolderLegalAddressType;

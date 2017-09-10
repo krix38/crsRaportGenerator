@@ -28,6 +28,16 @@
             <b>accountHolderLastName</b>
         </field>
 
+        <field>
+            <a>accountHolder.individual.birthInfo.countryInfo.countryCode</a>
+            <b>accountHolderBirthCountry</b>
+        </field>
+
+        <field custom-converter="pl.krix.generator.configuration.converter.LegalAddressTypeConverter">
+            <a>accountHolder.individual</a>
+            <b>accountHolderLegalAddressType</b>
+        </field>
+
     </mapping>
 
 </mappings>
